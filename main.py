@@ -17,10 +17,11 @@ client.remove_command("help")
 
 @client.event
 async def on_ready():
-    await client.change_presence(status=discord.Status.online, activity=discord.Game("-help"))
+    await client.change_presence(status=discord.Status.online, activity=discord.Game(f"{PREFIX}help"))
     print("Ready")
 
 @client.command(aliases=["start", "setup"])
+@commands.has_permissions(manage_messages=True)
 async def init(ctx, role):
     global ROLE
     ROLE = role
@@ -42,10 +43,6 @@ async def verify(ctx, name):
     member2 = str(member).replace("#", "")
     Output2 = str(Output).replace("#", "")
 
-    f = open("demofile2.txt", "w")
-    f.write(f"Output: _{Output2}_\nMember: _{member2}_")
-    f.close
-
     if member2 == Output2 and ROLE != None:
         role = discord.utils.get(ctx.guild.roles, name=ROLE)
         await member.add_roles(role)
@@ -54,12 +51,10 @@ async def verify(ctx, name):
     elif Output2 == "Error":
         await ctx.send("Something went wrong, please try again! If this keeps happening the Api is probably down.")
         
-    elif Output2 == None:
-        await ctx.send(f"There is no Discord account linked to `{name}`. If you just set it try again i a few minutes!")
 
 
     elif Output2 != member2 and ROLE != None:
-        await ctx.send(f"The current Discord set on the Account `{Output}` doesnt match your discord name `{member}` ")
+        await ctx.send(f"The current Discord set on the Account `{Output}` doesnt match your discord name `{member}`. If you just changed wait a few minutes and try again.")
         
     else:
         await ctx.send(f"Please setup the Bot First with `{PREFIX}setup (role)` or make sure your role exists and can be assigned! ")
@@ -68,11 +63,12 @@ async def verify(ctx, name):
     
 
 @client.command()
+@commands.has_permissions(manage_messages=True)
 async def prefix(ctx, prefix):
     global PREFIX
     PREFIX = prefix
     client.command_prefix = PREFIX
+    await client.change_presence(status=discord.Status.online, activity=discord.Game(f"{PREFIX}help"))
     await ctx.send(f"The new Prefix is now {PREFIX}")
-
 
 client.run(KEY)
