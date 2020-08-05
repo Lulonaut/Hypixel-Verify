@@ -8,10 +8,10 @@ from Functions import getdiscord, key
 KEY = key.key()
 #The Prefix of the Bot
 PREFIX = "v!"
-#The Role it gives People
+#The Role it gives People 
 ROLE = "Hypixel Verified"
 
-# Sets Command Prefix and removes existing #help command
+# Sets Command Prefix 
 client = commands.Bot(command_prefix = PREFIX)
 
 @client.event
@@ -19,15 +19,20 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=discord.Game(""))
     print("Ready")
 
-@client.command(aliases=["verifyme"])
+@client.command()
 async def verify(ctx, name):
     #defines Member
     member = ctx.message.author
     #trys getting Output
     rank = None
+    nickname = None
+    guildrole = None
+    grole = None
     try:
         Output = getdiscord.data(name)
         rank = getdiscord.rank(name)
+        nickname = getdiscord.name(name)
+        guildrole = getdiscord.guild(name)
     except:
         Output = None
         await ctx.send("Error with api, please Try again later")
@@ -41,16 +46,20 @@ async def verify(ctx, name):
         rankrole = None
         try:
             role = discord.utils.get(ctx.guild.roles, name=ROLE)
-            rankrole = role = discord.utils.get(ctx.guild.roles, name=rank)
+            rankrole = discord.utils.get(ctx.guild.roles, name=rank)
+            grole = discord.utlis.get(ctx.guild.roles, name = "Guild Member")
         except:
             await ctx.send("Looks like your rank doesnt exist as a role. Ask an Admin to add it")
         try:
             await member.add_roles(role)
             await member.add_roles(rankrole)
+            if guildrole == True:
+                await member.add_roles(grole)
+            
         except:
             pass
         try:
-            await member.edit(nick = name)
+            await member.edit(nick = nickname)
             await ctx.send(f"You now have the Role `{ROLE}` and i changed your Nickname")
         except:
             await ctx.send("Sorry, i cant change your Nickname :( Maybe you have higher permissions than me?")
