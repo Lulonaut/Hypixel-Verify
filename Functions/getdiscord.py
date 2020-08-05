@@ -16,4 +16,12 @@ def data(name):
         linked = "Error"
         return linked
  
+def rank(name):
+    data = fetch(f"https://api.slothpixel.me/api/players/{name}")
 
+    try:
+        rank = data["rank"]
+        return rank
+
+    except:
+        return "Error"
