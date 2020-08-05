@@ -28,15 +28,14 @@ async def verify(ctx, name):
     nickname = None
     guildrole = None
     grole = None
+    Output = None
     try:
         Output = getdiscord.data(name)
         rank = getdiscord.rank(name)
         nickname = getdiscord.name(name)
         guildrole = getdiscord.guild(name)
     except:
-        Output = None
-        await ctx.send("Error with api, please Try again later")
-        pass
+        print("Error while getting data")
     
     member2 = str(member).replace("#", "")
     Output2 = str(Output).replace("#", "")
@@ -49,7 +48,7 @@ async def verify(ctx, name):
             rankrole = discord.utils.get(ctx.guild.roles, name=rank)
             grole = discord.utlis.get(ctx.guild.roles, name = "Guild Member")
         except:
-            await ctx.send("Looks like your rank doesnt exist as a role. Ask an Admin to add it")
+            pass
         try:
             await member.add_roles(role)
             await member.add_roles(rankrole)

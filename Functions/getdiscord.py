@@ -48,3 +48,6 @@ def guild(name):
         return True
     else:
         return False
+
+g = guild("XennoKFC")
+print(g)
