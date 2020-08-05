@@ -3,4 +3,4 @@ Verifys Players from Hypixel and gives them a role!
 
 Commands:
 
-v!verify (Username=
+v!verify (Username)
