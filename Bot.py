@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord.utils import get
 from Functions import getdiscord, key
 
-
+#TODO Implement Guild Role check
 #Discord Key used to run the Bot
 KEY = key.key()
 #The Prefix of the Bot
@@ -18,7 +18,7 @@ client = commands.Bot(command_prefix = PREFIX)
 
 @client.event
 async def on_ready():
-    await client.change_presence(status=discord.Status.online, activity=discord.Game(""))
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Lulonaut/Hypixel-Verify"))
     print("Ready")
 
 @client.command()
@@ -31,14 +31,30 @@ async def verify(ctx, name):
     guildrole = None
     grole = None
     Output = None
-    try:
-        Output = getdiscord.data(name)
-        rank = getdiscord.rank(name)
-        nickname = getdiscord.name(name)
-        guildrole = getdiscord.guild(name)
-    except:
-        print("Error while getting data")
+
+    Output = getdiscord.discordlinked(name)
+    rank = getdiscord.rank(name)
+    nickname = getdiscord.name(name)
+#    guildrole = getdiscord.guild(name)
     
+    if Output == "API_ERROR":
+        #Abort
+        await ctx.send("There was an Error while contacting the API, please try again later or contact an Admin!")
+        pass
+    elif Output == "DISCORD_ERROR":
+        #Abort
+        await ctx.send(f"There is currently no Discord linked to the IGN: {name}. If you just updated it in game, try again in a few minutes!")
+        pass
+    if rank == "RANK_ERROR":
+        #Continue without Rank info
+        await ctx.send("There was an Error while getting your rank info, maybe you are a Staff Member?")
+    
+    if name == "NAME_ERROR":
+        #Abort
+        print("There was an Error getting your Name, try again and if this keeps happening contact an Admin")
+        pass
+
+
     member2 = str(member).replace("#", "")
     Output2 = str(Output).replace("#", "")
 
@@ -48,14 +64,14 @@ async def verify(ctx, name):
         try:
             role = discord.utils.get(ctx.guild.roles, name=ROLE)
             rankrole = discord.utils.get(ctx.guild.roles, name=rank)
-            grole = discord.utlis.get(ctx.guild.roles, name = "Guild Member")
+#            grole = discord.utlis.get(ctx.guild.roles, name = "Guild Member")
         except:
             pass
         try:
             await member.add_roles(role)
             await member.add_roles(rankrole)
-            if guildrole == True:
-                await member.add_roles(grole)
+#            if guildrole == True:
+#                await member.add_roles(grole)
             
         except:
             pass

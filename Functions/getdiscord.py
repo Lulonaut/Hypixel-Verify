@@ -4,7 +4,7 @@ def fetch(url):
     return (lambda u: requests.get(url).json())(url)
 
 
-def data(name):
+def discordlinked(name):
     global data
     try:
         data = fetch(f"https://api.slothpixel.me/api/players/{name}")
@@ -43,17 +43,14 @@ def name(name):
         print(f"Error getting correct name for {name}")
         return "NAME_ERROR"
 
-def guild(name):
-    data = fetch(f"https://api.slothpixel.me/api/guilds/{name}")
-
-    try:
-        gname = data["name"]
-    except:
-        return "Api down"
-    if gname == "In Another World With My Guild":
-        return True
-    else:
-        return False
-
-g = guild("XennoKFC")
-print(g)
+#def guild(name):
+#    data = fetch(f"https://api.slothpixel.me/api/guilds/{name}")
+#
+#    try:
+#        gname = data["name"]
+#    except:
+#        return "Api down"
+#    if gname == "In Another World With My Guild":
+#        return True
+#    else:
+#        return False
