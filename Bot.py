@@ -1,4 +1,4 @@
-import discord, asyncio, discord.utils
+import discord, discord.utils
 from discord.ext import commands
 from discord.utils import get
 from Functions import getdiscord, key
@@ -10,6 +10,8 @@ KEY = key.key()
 PREFIX = "v!"
 #The Role it gives People 
 ROLE = "Hypixel Verified"
+
+
 
 # Sets Command Prefix 
 client = commands.Bot(command_prefix = PREFIX)

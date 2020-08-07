@@ -6,14 +6,18 @@ def fetch(url):
 
 def data(name):
     global data
-    data = fetch(f"https://api.slothpixel.me/api/players/{name}")
+    try:
+        data = fetch(f"https://api.slothpixel.me/api/players/{name}")
+    except:
+        print(f"Error contacting API while handling request from {name}")
+        return "API_ERROR"
 
     try:
         linked = data["links"]["DISCORD"]
         return linked
     except:
-        linked = "Error"
-        return linked
+        print(f"{name} has no linked discord, sending error")
+        return "DISCORD_ERROR"
  
 def rank(name):
 
@@ -28,14 +32,16 @@ def rank(name):
         return rank
 
     except:
-        return "Error"
+        print(f"Error while getting rank, maybe {name} is a Youtuber or Staff member?")
+        return "RANK_ERROR"
 
 def name(name):
     try:
         name=data["username"]
         return name
     except:
-        return "Api is down"
+        print(f"Error getting correct name for {name}")
+        return "NAME_ERROR"
 
 def guild(name):
     data = fetch(f"https://api.slothpixel.me/api/guilds/{name}")
