@@ -21,6 +21,7 @@ The Python version 3.6 or newer is required, because the Bot uses so called "f-S
 ### Packages
 The packages beeing used are:
 discord - [discord.py](https://discordpy.readthedocs.io/en/latest/) Libary
+
 requests - Requests to the API ([click][click])
 
 #### Command to install all packages: 
@@ -36,7 +37,7 @@ Learn how to get a token [here](https://discordpy.readthedocs.io/en/latest/disco
 
 Aftert that search for KEY = in Bot.py and replace it with your key. The line should look like this: KEY = "your key here".
 
-If you followed the token Page step by step the Bot should already be in your server, so you can start the scrip to test it and then start hosting it somewhere!
+If you followed the token Page step by step the Bot should already be in your server, so you can start the script to test it and then start hosting it somewhere!
 
 If you still have Problems getting the Bot running or have a general question, contact me on Discord: Lulonaut#3350
 
