@@ -11,8 +11,8 @@ PREFIX = "v!"
 #The Role it gives People 
 ROLE = "Hypixel Verified"
 
-
-
+mrole = "Guild Member"
+ankrole = None
 # Sets Command Prefix 
 client = commands.Bot(command_prefix = PREFIX)
 
@@ -35,7 +35,7 @@ async def verify(ctx, name):
     Output = getdiscord.discordlinked(name)
     rank = getdiscord.rank(name)
     nickname = getdiscord.name(name)
-#    guildrole = getdiscord.guild(name)
+    guildmember = getdiscord.guild(name)
     
     if Output == "API_ERROR":
         #Abort
@@ -45,6 +45,10 @@ async def verify(ctx, name):
         #Abort
         await ctx.send(f"There is currently no Discord linked to the IGN: {name}. If you just updated it in game, try again in a few minutes!")
         pass
+    
+    if guildmember == "NOT_IN_GUILD":
+        guildmember = None
+
     if rank == "RANK_ERROR":
         #Continue without Rank info
         await ctx.send("There was an Error while getting your rank info, maybe you are a Staff Member?")
@@ -63,23 +67,35 @@ async def verify(ctx, name):
         rankrole = None
         try:
             role = discord.utils.get(ctx.guild.roles, name=ROLE)
-            rankrole = discord.utils.get(ctx.guild.roles, name=rank)
-#            grole = discord.utlis.get(ctx.guild.roles, name = "Guild Member")
         except:
-            pass
+            print(f"Error while getting Role {ROLE} ")
+        try:
+            rankrole = discord.utils.get(ctx.guild.roles, name=rank)
+        except:
+            print(f"Error while getting Role {rank} ")
+        try:
+            ankrole = discord.utils.get(ctx.guild.roles, name=mrole)
+        except:
+            print(f"Error while getting Role Guild Member ")
+
         try:
             await member.add_roles(role)
-            await member.add_roles(rankrole)
-#            if guildrole == True:
-#                await member.add_roles(grole)
-            
         except:
-            pass
+            print(f"Error assigning role 1 for {name}")
+        try:
+            await member.add_roles(rankrole)
+        except:
+            print(f"Error assigning Rank role for {name}")
+        try:
+            await member.add_roles(ankrole)
+        except:
+            print(f"Error assigning member role for {name}")            
+
         try:
             await member.edit(nick = nickname)
-            await ctx.send(f"You now have the Role `{ROLE}` and i changed your Nickname")
+            await ctx.send(f"You now have the Role `{ROLE}` and i changed your Nickname to your IGN")
         except:
-            await ctx.send("Sorry, i cant change your Nickname :( Maybe you have higher permissions than me?")
+            await ctx.send("Sorry, i cant change your Nickname but i gave you the roles. If this keeps happening please report it!")
         
 
     elif Output2 == "Error":

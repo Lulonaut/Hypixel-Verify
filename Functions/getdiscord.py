@@ -43,14 +43,15 @@ def name(name):
         print(f"Error getting correct name for {name}")
         return "NAME_ERROR"
 
-#def guild(name):
-#    data = fetch(f"https://api.slothpixel.me/api/guilds/{name}")
-#
-#    try:
-#        gname = data["name"]
-#    except:
-#        return "Api down"
-#    if gname == "In Another World With My Guild":
-#        return True
-#    else:
-#        return False
+def guild(name):
+    data = fetch(f"https://api.slothpixel.me/api/guilds/{name}")
+    gname = None
+    try:
+        gname = data["name"]
+    except:
+        return "NOT_IN_GUILD"
+
+    if gname == "In Another World With My Guild":
+        return "Gmember"
+    else:
+        return "notGmember"
