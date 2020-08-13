@@ -21,6 +21,13 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Lulonaut/Hypixel-Verify"))
     print("Ready")
 
+@client.event
+async def on_member_join(member):
+    role = get(member.guild.roles, name="Member")
+    await member.add_roles(role)
+    print(f"{member} was given {role}")
+
+
 @client.command()
 async def verify(ctx, name):
     #defines Member
@@ -31,6 +38,7 @@ async def verify(ctx, name):
     guildrole = None
     grole = None
     Output = None
+    ankrole = None
 
     Output = getdiscord.discordlinked(name)
     rank = getdiscord.rank(name)
