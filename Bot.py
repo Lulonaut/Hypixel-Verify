@@ -10,6 +10,8 @@ KEY = key.key()
 PREFIX = "v!"
 #The Role it gives People 
 ROLE = "Hypixel Verified"
+#Role it gives new people that join
+AUTOROLE = "Member"
 
 mrole = "Guild Member"
 ankrole = None
@@ -23,7 +25,7 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-    role = get(member.guild.roles, name="Member")
+    role = get(member.guild.roles, name=AUTOROLE)
     await member.add_roles(role)
     print(f"{member} was given {role}")
 
