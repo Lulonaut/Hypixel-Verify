@@ -1,3 +1,4 @@
+from Functions.getdiscord import guild
 import discord, discord.utils
 from discord.ext import commands
 from discord.utils import get
@@ -97,7 +98,8 @@ async def verify(ctx, name):
         except:
             print(f"Error assigning Rank role for {name}")
         try:
-            await member.add_roles(ankrole)
+            if guildmember == "Gmember":
+                await member.add_roles(ankrole)
         except:
             print(f"Error assigning member role for {name}")            
 

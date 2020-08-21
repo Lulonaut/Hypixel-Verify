@@ -55,3 +55,4 @@ def guild(name):
         return "Gmember"
     else:
         return "notGmember"
+
