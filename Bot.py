@@ -78,8 +78,10 @@ async def verify(ctx, name):
         rankrole = None
         try:
             role = discord.utils.get(ctx.guild.roles, name=ROLE)
+            annPing = discord.utils.get(ctx.guild.roles,name = "Announcement Ping" )
+            evePing = discord.utils.get(ctx.guild.roles,name = "Event Ping" )
         except:
-            print(f"Error while getting Role {ROLE} ")
+            print(f"Error while getting Role {ROLE} or pings")
         try:
             rankrole = discord.utils.get(ctx.guild.roles, name=rank)
         except:
@@ -91,6 +93,8 @@ async def verify(ctx, name):
 
         try:
             await member.add_roles(role)
+            await member.add_roles(annPing)
+            await member.add_roles(evePing)
         except:
             print(f"Error assigning role 1 for {name}")
         try:
