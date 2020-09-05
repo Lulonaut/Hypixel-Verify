@@ -12,7 +12,6 @@ v!verify (Username) // Gives Them the Role you set in Bot.py and a rank role if 
 You can use my Bot by inviting it [here](https://discord.com/oauth2/authorize?client_id=734124502027599925&permissions=268438528&scope=bot)
 However if you do not trust me or simply want to host it on your own, follow the instructions below. Please note that your PC has to be online 24/7 if you want to host it on your own. So i would consider hosting it on a dedicated Server or somewhere else.
 
- Please note that there are some free alternatives online but they are likely to corrupt the Bot because they dont have any Packages and/or the wrong Python Version
 
 ### Python Version
 
