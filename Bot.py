@@ -51,10 +51,11 @@ async def verify(ctx, name):
     if Output == "API_ERROR":
         #Abort
         await ctx.send("There was an Error while contacting the API, please try again later or contact an Admin!")
-        pass
+        return
     elif Output == "DISCORD_ERROR":
         #Abort
         await ctx.send(f"There is currently no Discord linked to the IGN: {name}. If you just updated it in game, try again in a few minutes!")
+        return
         pass
     
     if guildmember == "NOT_IN_GUILD":
@@ -67,6 +68,7 @@ async def verify(ctx, name):
     if name == "NAME_ERROR":
         #Abort
         print("There was an Error getting your Name, try again and if this keeps happening contact an Admin")
+        return
         pass
 
 
