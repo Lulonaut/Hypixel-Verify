@@ -28,6 +28,7 @@ requests - Requests to the API ([click][click])
 Windows: pip install discord requests
 
 Linux: pip3 install discord requests
+
 Note: You may need to use pip3.6 on Linux
 
 ### Bot token
