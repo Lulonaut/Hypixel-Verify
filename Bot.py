@@ -1,6 +1,5 @@
 import re
 import time
-import random
 from Functions.getdiscord import guild
 import discord, discord.utils
 from discord.ext import commands
@@ -145,7 +144,7 @@ async def verify(ctx, name):
 @client.event
 async def on_message(message):
     
-    if message.content.startswith('setup'):
+    if message.content.startswith('v!setup'):
         channel = message.channel
         #Timout for answering
         default_timeout = 420
@@ -173,7 +172,7 @@ async def on_message(message):
         start = await channel.send('initializing Setup... :upside_down:')
         time.sleep(1.5)
         await start.delete()
-        await channel.send(f"Done :white_check_mark:\n\n**A few things before we start:\n1.** Only {message.author.mention} can respond to this message in the channel {message.channel.mention} , Everything else will be ignored\n**2.** The Timeout for answering a message is {default_timeout} seconds unless noted otherwise")
+        await channel.send(f"Done :white_check_mark:\n\n**A few things before we start:\n1.** Only {message.author.mention} can respond to this message in the channel {message.channel.mention} , Everything else will be ignored\n**2.** The Timeout for answering a message is {default_timeout} seconds unless noted otherwise\n**3.** All info that you enter here is stored on a server and is only changed for this Discord Server\n**4.** Info wont be deleted if you kick or ban the Bot, however you can rerun the Setup at any time.")
         time.sleep(1)
 
         try:
@@ -181,7 +180,9 @@ async def on_message(message):
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
             return
-        #Note to  self, continue here with asking
+        
+
+
     await client.process_commands(message)
 
 client.run(KEY)
