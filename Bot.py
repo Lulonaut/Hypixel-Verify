@@ -141,9 +141,8 @@ async def verify(ctx, name):
 
 
 #Setup part, NOT COMPLETED
-@client.event
+""" @client.event
 async def on_message(message):
-    return
     
     if message.content.startswith('v!setup'):
         channel = message.channel
@@ -181,6 +180,6 @@ async def on_message(message):
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
             return
-        #Note to self, continue here with asking
+        #Note to  self, continue here with asking"""
 
 client.run(KEY)
