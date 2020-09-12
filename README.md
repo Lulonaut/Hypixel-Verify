@@ -1,5 +1,5 @@
 # Hypixel-Verify
-Verifys Players from the Hypixel Network in Minecraft and gives them a role on your discord!
+Verifys Players from the Hypixel Network in Minecraft and gives them a role on your discord server!
 
 # Commands
 
