@@ -184,5 +184,4 @@ async def on_message(message):
             return
         #Note to self, continue here with asking
 
-
-client.run("NzM0MTE3MTk3MjAyNDU2NTc3.XxNB6w.rR12gR9d4OA7eqh4_ZDhI9dmPA4")
+client.run(KEY)
