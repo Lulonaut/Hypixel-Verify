@@ -4,7 +4,7 @@ Verifys Players from the Hypixel Network in Minecraft and gives them a role on y
 # Commands
 
 
-v!verify (Username) // Gives Them the Role you set in Bot.py and a rank role if it exists on the Server!
+v!verify (Username) // Checks if they connected their discord and adds a role if they did
 
 # Getting the Bot running
 
