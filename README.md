@@ -35,7 +35,7 @@ Note: You may need to use pip3.6 on Linux
 
 Learn how to get a token [here](https://discordpy.readthedocs.io/en/latest/discord.html#discord-intro)
 
-Aftert that search for KEY = in Bot.py and replace it with your key. The line should look like this: KEY = "your key here".
+After that search for KEY = in Bot.py and replace it with your key. The line should look like this: KEY = "your key here".
 
 If you followed the token Page step by step the Bot should already be in your server, so you can start the script to test it and then start hosting it somewhere!
 
