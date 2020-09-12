@@ -36,6 +36,7 @@ async def on_member_join(member):
 
 @client.command()
 async def verify(ctx, name):
+    print("kk")
     #defines Variables to avoid errors later
     member = ctx.message.author
 
@@ -141,10 +142,10 @@ async def verify(ctx, name):
 
 
 #Setup part, NOT COMPLETED
-""" @client.event
+@client.event
 async def on_message(message):
     
-    if message.content.startswith('v!setup'):
+    if message.content.startswith('setup'):
         channel = message.channel
         #Timout for answering
         default_timeout = 420
@@ -180,6 +181,7 @@ async def on_message(message):
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
             return
-        #Note to  self, continue here with asking"""
+        #Note to  self, continue here with asking
+    await client.process_commands(message)
 
 client.run(KEY)
