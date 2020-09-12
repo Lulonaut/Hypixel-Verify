@@ -8,7 +8,6 @@ from discord.utils import get
 from Functions import getdiscord, key
 import asyncio
 
-#TODO Implement Guild Role check
 #Discord Key used to run the Bot
 KEY = key.key()
 #The Prefix of the Bot
