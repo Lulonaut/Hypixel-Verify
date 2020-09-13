@@ -131,7 +131,7 @@ async def verify(ctx, name):
         await ctx.send("Something went wrong, please try again! If this keeps happening the Api is probably down.")
         
 
-    # Shows the Error when it doesnt macht
+    # Shows the Error when it doesnt match
     elif Output2 != member2 and ROLE != None:
         await ctx.send(f"The current Discord set on the Account `{Output}` doesnt match your discord name `{member}`. If you just changed it in game wait a few minutes and try again.")
     
