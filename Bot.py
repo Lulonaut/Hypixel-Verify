@@ -145,6 +145,8 @@ async def verify(ctx, name):
 async def on_message(message):
     
     if message.content.startswith('v!setup'):
+        #return as its not finished yet!
+        return
         channel = message.channel
         #Timout for answering
         default_timeout = 420
