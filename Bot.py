@@ -1,30 +1,33 @@
 import re
 import time
 from Functions.getdiscord import guild
-import discord, discord.utils
+import discord
+import discord.utils
 from discord.ext import commands
 from discord.utils import get
 from Functions import getdiscord, key
 import asyncio
 
-#Discord Key used to run the Bot
+# Discord Key used to run the Bot
 KEY = key.key()
-#The Prefix of the Bot
+# The Prefix of the Bot
 PREFIX = "v!"
-#The Role it gives People 
+# The Role it gives People
 ROLE = "Hypixel Verified"
-#Role it gives new people that join
+# Role it gives new people that join
 AUTOROLE = "Member"
 
 mrole = "Guild Member"
 ankrole = None
-# Sets Command Prefix 
-client = commands.Bot(command_prefix = PREFIX)
+# Sets Command Prefix
+client = commands.Bot(command_prefix=PREFIX)
+
 
 @client.event
 async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Lulonaut/Hypixel-Verify"))
     print("Ready")
+
 
 @client.event
 async def on_member_join(member):
@@ -36,7 +39,7 @@ async def on_member_join(member):
 @client.command()
 async def verify(ctx, name):
     print("kk")
-    #defines Variables to avoid errors later
+    # defines Variables to avoid errors later
     member = ctx.message.author
 
     rank = None
@@ -46,52 +49,51 @@ async def verify(ctx, name):
     Output = None
     ankrole = None
 
-    #Get info from API
+    # Get info from API
 
     Output = getdiscord.discordlinked(name)
     rank = getdiscord.rank(name)
     nickname = getdiscord.name(name)
     guildmember = getdiscord.guild(name)
 
-    #Error handling
-    
+    # Error handling
+
     if Output == "API_ERROR":
-        #Abort
+        # Abort
         await ctx.send("There was an Error while contacting the API, please try again later or contact an Admin!")
         return
     elif Output == "DISCORD_ERROR":
-        #Abort
+        # Abort
         await ctx.send(f"There is currently no Discord linked to the IGN: {name}. If you just updated it in game, try again in a few minutes! ")
         return
-    
+
     if guildmember == "NOT_IN_GUILD":
         guildmember = None
 
     if rank == "RANK_ERROR":
-        #Continue without Rank info
+        # Continue without Rank info
         await ctx.send("There was an Error while getting your rank info, maybe you are a Staff Member?")
-    
+
     if name == "NAME_ERROR":
-        #Abort
+        # Abort
         print("There was an Error getting your Name, try again and if this keeps happening contact an Admin")
         return
 
-
-
-    #Makes Strings comparable to check if API matches with Discord Tag
+    # Makes Strings comparable to check if API matches with Discord Tag
     member2 = str(member).replace("#", "")
     Output2 = str(Output).replace("#", "")
-    
-    #When compared adds Roles and changes Nickname
+
+    # When compared adds Roles and changes Nickname
     if member2 == Output2 and ROLE != None:
         role = None
         rankrole = None
 
-        #defines the roles
+        # defines the roles
         try:
             role = discord.utils.get(ctx.guild.roles, name=ROLE)
-            annPing = discord.utils.get(ctx.guild.roles,name = "Announcement Ping" )
-            evePing = discord.utils.get(ctx.guild.roles,name = "Event Ping" )
+            annPing = discord.utils.get(
+                ctx.guild.roles, name="Announcement Ping")
+            evePing = discord.utils.get(ctx.guild.roles, name="Event Ping")
         except:
             print(f"Error while getting Role {ROLE} or pings")
         try:
@@ -101,8 +103,8 @@ async def verify(ctx, name):
         try:
             ankrole = discord.utils.get(ctx.guild.roles, name=mrole)
         except:
-           print(f"Error while getting Role Guild Member ")
-        #Adds the roles
+            print(f"Error while getting Role Guild Member ")
+        # Adds the roles
         try:
             await member.add_roles(role)
             await member.add_roles(annPing)
@@ -117,41 +119,39 @@ async def verify(ctx, name):
             if guildmember == "Gmember":
                 await member.add_roles(ankrole)
         except:
-            print(f"Error assigning member role for {name}")            
+            print(f"Error assigning member role for {name}")
 
-        #Changes Nickname
+        # Changes Nickname
         try:
-            await member.edit(nick = nickname)
+            await member.edit(nick=nickname)
             await ctx.send(f"You now have the Role `{ROLE}` and i changed your Nickname to your IGN")
         except:
             await ctx.send("Sorry, i cant change your Nickname but i gave you the roles. If this keeps happening please report it!")
-        
-    #Error, idk if this is ever used
+
+    # Error, idk if this is ever used
     elif Output2 == "Error":
         await ctx.send("Something went wrong, please try again! If this keeps happening the Api is probably down.")
-        
 
     # Shows the Error when it doesnt match
     elif Output2 != member2 and ROLE != None:
         await ctx.send(f"The current Discord set on the Account `{Output}` doesnt match your discord name `{member}`. If you just changed it in game wait a few minutes and try again.")
-    
+
     else:
         await ctx.send("Error, maybe try again in a bit")
 
 
-
-#Setup part, NOT COMPLETED
+# Setup part, NOT COMPLETED
 @client.event
 async def on_message(message):
-    
+
     if message.content.startswith('v!setup'):
-        #return as its not finished yet!
+        # return as its not finished yet!
         return
         channel = message.channel
-        #Timout for answering
+        # Timout for answering
         default_timeout = 420
 
-        # Removes text off Permission id to make it comparable
+        # Removes text of Permission id to make it comparable
         s = message.author.permissions_in(message.channel)
         s = str(s)
         s = re.sub("\D", "", s)
@@ -164,13 +164,11 @@ async def on_message(message):
             return
 
         # Check to see if message is from the same user and in the same channel as the original one
+
         def check(m):
             return m.channel == message.channel and m.author == message.author
 
-
-
-        
-        #Actual Setup
+        # Actual Setup
         start = await channel.send('initializing Setup... :upside_down:')
         time.sleep(1.5)
         await start.delete()
@@ -182,9 +180,7 @@ async def on_message(message):
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
             return
-        
-
 
     await client.process_commands(message)
 
-client.run(KEY)
+client.run("NzM0MTE3MTk3MjAyNDU2NTc3.XxNB6w.VhIzqg3UD5R4VovLPE3xCMhS9d4")
