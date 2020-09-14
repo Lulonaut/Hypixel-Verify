@@ -183,4 +183,4 @@ async def on_message(message):
 
     await client.process_commands(message)
 
-client.run("NzM0MTE3MTk3MjAyNDU2NTc3.XxNB6w.VhIzqg3UD5R4VovLPE3xCMhS9d4")
+client.run(KEY)
