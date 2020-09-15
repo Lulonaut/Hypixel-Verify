@@ -149,7 +149,7 @@ async def on_message(message):
         return
         channel = message.channel
         # Timout for answering
-        default_timeout = 420
+        default_timeout = int(420)
 
         # Removes text of Permission id to make it comparable
         s = message.author.permissions_in(message.channel)
@@ -164,23 +164,54 @@ async def on_message(message):
             return
 
         # Check to see if message is from the same user and in the same channel as the original one
-
         def check(m):
-            return m.channel == message.channel and m.author == message.author
+            if c == m.content:
+                return m.channel == message.channel and m.author == message.author
+            elif c == None:
+
+                return m.channel == message.channel and m.author == message.author
 
         # Actual Setup
         start = await channel.send('initializing Setup... :upside_down:')
         time.sleep(1.5)
-        await start.delete()
-        await channel.send(f"Done :white_check_mark:\n\n**A few things before we start:\n1.** Only {message.author.mention} can respond to this message in the channel {message.channel.mention} , Everything else will be ignored\n**2.** The Timeout for answering a message is {default_timeout} seconds unless noted otherwise\n**3.** All info that you enter here is stored on a server and is only changed for this Discord Server\n**4.** Info wont be deleted if you kick or ban the Bot, however you can rerun the Setup at any time.")
-        time.sleep(1)
 
+        author = str(message.author.mention)
+        channelMention = str(message.channel.mention)
+        default_timeout = str(default_timeout)
+        embed = discord.Embed()
+        embed.set_author(name="Lulonaut", url="https://github.com/Lulonaut/")
+        embed.add_field(name="Basic Info", value="\n**A few things before we start:\n1.** Only " + author + " can respond to this message in the channel " + channelMention + " , Everything else will be ignored\n**2.** The Timeout for answering a message is " + default_timeout +
+                        " seconds unless noted otherwise\n**3.** All info that you enter here is stored on a server and is only changed for this Discord Server\n**4.** Info wont be deleted if you kick or ban the Bot, however you can rerun the Setup at any time.\n\nType **start** to continue with the setup", inline=False)
+        embed.set_footer(text=":)")
+        await channel.send(embed=embed)
+        time.sleep(1)
+        # First "start" Question
         try:
-            msg = await client.wait_for('message', timeout=default_timeout, check=check)
+            c = "start"
+            msg = await client.wait_for('message', timeout=1000, check=check)
+
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
             return
 
+        embed = discord.Embed()
+        embed.set_author(name="Lulonaut", url="https://github.com/Lulonaut/")
+        embed.add_field(name="Verify Role", value="Okay we can start!\nPlease enter the Role people should get after verifying! This is required for minimal Operation and you can stop after this if you want!", inline=False)
+        embed.add_field(name="How to respond",
+                        value="Please respond with the exact Role Name and make sure it exists!\nI would suggest copying it from the Role Menu", inline=False)
+        embed.set_footer(text=":)")
+        await channel.send(embed=embed)
+        try:
+            default_timeout = int(default_timeout)
+            c = "LOL"
+            msg = await client.wait_for('message', timeout=default_timeout, check=check)
+
+        except asyncio.TimeoutError:
+            await channel.send("Sorry you took to long to respond! Try again")
+            return
+
+        return
+
     await client.process_commands(message)
 
-client.run(KEY)
+client.run("NzM0MTE3MTk3MjAyNDU2NTc3.XxNB6w.W_Ltg62IYe8MwsIatg8WjBv1iDA")
