@@ -173,6 +173,7 @@ async def on_message(message):
         await channel.send('initializing Setup... :upside_down:')
         time.sleep(1.5)
 
+        # first embed for the start question
         author = str(message.author.mention)
         channelMention = str(message.channel.mention)
         default_timeout = str(default_timeout)
@@ -191,7 +192,7 @@ async def on_message(message):
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
             return
-
+        # embed for the verify Role Question
         embed = discord.Embed()
         embed.set_author(name="Lulonaut", url="https://github.com/Lulonaut/")
         embed.add_field(name="Verify Role", value="Okay we can start!\nPlease enter the Role people should get after verifying! This is required for minimal Operation and you can stop after this if you want!", inline=False)
@@ -199,10 +200,14 @@ async def on_message(message):
                         value="Please respond with the exact Role Name and make sure it exists!\nI would suggest copying it from the Role Menu", inline=False)
         embed.set_footer(text=":)")
         await channel.send(embed=embed)
+        # verify role question
         try:
             default_timeout = int(default_timeout)
-            c = "LOL"
+            c = None
             msg = await client.wait_for('message', timeout=default_timeout, check=check)
+
+            # First variable to be saved
+            toSaveVROLE = msg.content
 
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
