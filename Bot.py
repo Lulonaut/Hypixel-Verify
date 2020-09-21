@@ -44,8 +44,6 @@ async def verify(ctx, name):
 
     rank = None
     nickname = None
-    guildrole = None
-    grole = None
     Output = None
     ankrole = None
 
@@ -146,7 +144,7 @@ async def on_message(message):
 
     if message.content.startswith('v!setup'):
         # return as its not finished yet!
-        return
+        # return
         channel = message.channel
         # Timout for answering
         default_timeout = int(420)
@@ -172,7 +170,7 @@ async def on_message(message):
                 return m.channel == message.channel and m.author == message.author
 
         # Actual Setup
-        start = await channel.send('initializing Setup... :upside_down:')
+        await channel.send('initializing Setup... :upside_down:')
         time.sleep(1.5)
 
         author = str(message.author.mention)
