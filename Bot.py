@@ -1,6 +1,5 @@
 import re
 import time
-from Functions.getdiscord import guild
 import discord
 import discord.utils
 from discord.ext import commands
@@ -147,7 +146,7 @@ async def on_message(message):
         # return
         channel = message.channel
         # Timout for answering
-        default_timeout = int(420)
+        default_timeout = int(1000)
 
         # Removes text of Permission id to make it comparable
         s = message.author.permissions_in(message.channel)
@@ -178,10 +177,9 @@ async def on_message(message):
         channelMention = str(message.channel.mention)
         default_timeout = str(default_timeout)
         embed = discord.Embed()
-        embed.set_author(name="Lulonaut", url="https://github.com/Lulonaut/")
         embed.add_field(name="Basic Info", value="\n**A few things before we start:\n1.** Only " + author + " can respond to this message in the channel " + channelMention + " , Everything else will be ignored\n**2.** The Timeout for answering a message is " + default_timeout +
                         " seconds unless noted otherwise\n**3.** All info that you enter here is stored on a server and is only changed for this Discord Server\n**4.** Info wont be deleted if you kick or ban the Bot, however you can rerun the Setup at any time.\n\nType **start** to continue with the setup", inline=False)
-        embed.set_footer(text=":)")
+        embed.set_footer(text=f"Coded by Lulonaut", icon_url = "https://avatars2.githubusercontent.com/u/67191924?s=400&u=442455cc574e59445631175d00733d055991a336&v=4")
         await channel.send(embed=embed)
         time.sleep(1)
         # First "start" Question
@@ -194,24 +192,32 @@ async def on_message(message):
             return
         # embed for the verify Role Question
         embed = discord.Embed()
-        embed.set_author(name="Lulonaut", url="https://github.com/Lulonaut/")
-        embed.add_field(name="Verify Role", value="Okay we can start!\nPlease enter the Role people should get after verifying! This is required for minimal Operation and you can stop after this if you want!", inline=False)
+        embed.add_field(name="Verify Role", value="Okay we can start!\nPlease enter the Role people should get after verifying. This is required for minimal Operation and you can stop after this if you want.", inline=False)
         embed.add_field(name="How to respond",
                         value="Please respond with the exact Role Name and make sure it exists!\nI would suggest copying it from the Role Menu", inline=False)
-        embed.set_footer(text=":)")
-        await channel.send(embed=embed)
+        embed.set_footer(text=f"Coded by Lulonaut", icon_url = "https://avatars2.githubusercontent.com/u/67191924?s=400&u=442455cc574e59445631175d00733d055991a336&v=4")
+        startEmbed = await channel.send(embed=embed)
         # verify role question
         try:
             default_timeout = int(default_timeout)
             c = None
             msg = await client.wait_for('message', timeout=default_timeout, check=check)
 
-            # First variable to be saved
+            # TODO First variable to be saved
             toSaveVROLE = msg.content
+            print(toSaveVROLE)
+            client.delete_message(startEmbed)
+            await channel.send("Input saved!")
+
 
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
             return
+        # rank role embed
+        embed=discord.Embed()
+        embed.add_field(name="Rank Role", value="The Bot can check the Rank a player has and give them the corresponding role. Do you want this enabled?", inline=True)
+        embed.add_field(name="How to Respond", value="Simply respond with ""yes"" or ""no"", or if you dont want anything else after this (Check GIthub README for info) type ""stop"".\nWhen responding with yes please make sure the following Roles exist: 1. VIP 2. VIP+ 3. MVP 4. MVP+ 5. MVP++\nIf they dont exist the feature wont work, but it wont break anything else.", inline=True)
+        await channel.send(embed=embed)
 
         return
 
