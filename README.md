@@ -10,7 +10,7 @@ v!verify (Username) // Checks if they connected their discord and adds a role if
 
 ### Info
 You can use my Bot by inviting it [here](https://discord.com/oauth2/authorize?client_id=734124502027599925&permissions=402738176&scope=bot)
-However if you do not trust me or simply want to host it on your own, follow the instructions below. Please note that your PC has to be online 24/7 if you want to host it on your own. So i would consider hosting it on a dedicated Server or somewhere else.
+However if you do not trust me or simply want to host it on your own, follow the instructions below. Please note that your PC has to be online 24/7 if you want to host it on your own. So i would consider hosting it on a dedicated Server or somewhere else. If you are hosting it on Heroku take a look into the [useful for hosting](https://github.com/Lulonaut/Hypixel-Verify/tree/master/useful%20for%20hosting) folder.
 
 
 ### Python Version
