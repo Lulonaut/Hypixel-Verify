@@ -1,2 +1,5 @@
 key.py
 *.pyc
+varStorage.json
+workingdata.json
+KEY.txt
