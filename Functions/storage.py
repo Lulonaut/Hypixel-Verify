@@ -27,7 +27,7 @@ def savetojson(dict):
 
 def loadfromjson():
     try:
-        with open('workingdata.json') as json_file:
+        with open('varStorage.json') as json_file:
             #global replist
             #replist = json.load(json_file)
             return json.load(json_file)
