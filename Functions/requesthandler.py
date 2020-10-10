@@ -1,63 +1,40 @@
-import storage
 import requests
+from Functions import logmsg
 
-# TODO: Altes Monitor Kabel bei neuem verwenden-> NVIDIA Control Panel -> Change resolution -> Output Dynamic range
+testsubject = "Hammerkit"
+
 
 def fetch(url):
     return (lambda u: requests.get(url).json())(url)
 
-# Only for testing!
+
+# TODO Comments
 
 
-def storecurrentdata(name):
+def tryhard(name):
     data = fetch(f"https://sky.shiiyu.moe/api/v2/profile/{name}")
-
-    storage.savetojson(data)
-
-
-def tryhardyesno(name):
-    data = fetch(f"https://sky.shiiyu.moe/api/v2/profile/{name}")
-
-    data = data['profiles']
-
-    keys = list(data.keys())
-    tosearch = []
-    for i in range(5):
-        try:
-            tosearch.append(keys[i])
-        except IndexError:
-            pass
-    for i in tosearch:
-        if data[i]['current'] == True:
-            finalprofile = i
-            pass
-
-
-# TODO: return true/false for meeting reqs (see tryhardyesno())
-def skillaverage(name):
-    data = fetch(f"https://sky.shiiyu.moe/api/v2/profile/{name}")
-
-    data = data['profiles']
-
-    keys = list(data.keys())
-    tosearch = []
-    for i in range(5):
-        try:
-            tosearch.append(keys[i])
-        except IndexError:
-            pass
-    for i in tosearch:
-        if data[i]['current'] == True:
-            global finalprofile
-            finalprofile = i
-            pass
-    return data[finalprofile]['data']['average_level_no_progress']
-
-
-def slayers(name):
     slayerdata = fetch(f"http://sky.shiiyu.moe/api/v2/slayers/{name}")
+    try:
+        data = data['profiles']
+    except:
+        tolog = (f"[Tryhard Command] error while resolving request for {name}")
+        logmsg.logmsg(tolog)
+        # TODO d: Error with your Username or you dont play Skyblock!
+        return "d"
+    keys = list(data.keys())
+    tosearch = []
+    for i in range(5):
+        try:
+            tosearch.append(keys[i])
+        except IndexError:
+            pass
+
+    for i in tosearch:
+        if data[i]['current'] == True:
+            finalprofile = i
+            pass
+    skillavg = data[finalprofile]['data']['average_level_no_progress']
     slayerdata = slayerdata['profiles'][finalprofile]
-    #slayerdata = storage.loadfromjson()
     sven = slayerdata['slayers']['wolf']['level']['currentLevel']
     tara = slayerdata['slayers']['spider']['level']['currentLevel']
     rev = slayerdata['slayers']['zombie']['level']['currentLevel']
@@ -76,11 +53,16 @@ def slayers(name):
         lvl7 = lvl7+1
 
     if lvl7 >= 2:
-        return True
+        slayers = True
     else:
-        return False
+        slayers = False
 
-
-testsubject = "Lulonaut"
-print(skillaverage(testsubject))
-print(slayers(testsubject))
+    if skillavg >= 30:
+        # TODO a: You meet it because your Skill average is higher than/or 30!
+        return "a"
+    elif skillavg >= 25 and slayers == True:
+        # TODO b: You meet it because your Skill average is higher than 25 and you have two Slayers at level 7
+        return "b"
+    else:
+        # TODO c: You dont meet it, sorry!
+        return "c"

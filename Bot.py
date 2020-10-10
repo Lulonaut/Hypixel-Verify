@@ -4,7 +4,7 @@ import discord
 import discord.utils
 from discord.ext import commands
 from discord.utils import get
-from Functions import getdiscord, key
+from Functions import getdiscord, key, requesthandler, logmsg
 import asyncio
 
 # Discord Key used to run the Bot
@@ -25,19 +25,20 @@ client = commands.Bot(command_prefix=PREFIX)
 @client.event
 async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Lulonaut/Hypixel-Verify"))
-    print("Ready")
+    logmsg.logmsg("[INFO] NEW SESSION\n")
 
 
 @client.event
 async def on_member_join(member):
     role = get(member.guild.roles, name=AUTOROLE)
     await member.add_roles(role)
-    print(f"{member} was given {role}")
+    logmsg.logmsg(f"[NEW MEMBER] {member} was given {role}")
+
+# Verify command
 
 
 @client.command()
 async def verify(ctx, name):
-    print("kk")
     # defines Variables to avoid errors later
     member = ctx.message.author
 
@@ -72,8 +73,6 @@ async def verify(ctx, name):
         await ctx.send("There was an Error while getting your rank info, maybe you are a Staff Member?")
 
     if name == "NAME_ERROR":
-        # Abort
-        print("There was an Error getting your Name, try again and if this keeps happening contact an Admin")
         return
 
     # Makes Strings comparable to check if API matches with Discord Tag
@@ -92,31 +91,31 @@ async def verify(ctx, name):
                 ctx.guild.roles, name="Announcement Ping")
             evePing = discord.utils.get(ctx.guild.roles, name="Event Ping")
         except:
-            print(f"Error while getting Role {ROLE} or pings")
+            logmsg.logmsg(f"[VERIFY COMMAND] Error while getting Role {ROLE} or pings")
         try:
             rankrole = discord.utils.get(ctx.guild.roles, name=rank)
         except:
-            print(f"Error while getting Role {rank} ")
+            logmsg.logmsg(f"[VERIFY COMMAND] Error while getting Role {rank} ")
         try:
             ankrole = discord.utils.get(ctx.guild.roles, name=mrole)
         except:
-            print(f"Error while getting Role Guild Member ")
+            logmsg.logmsg(f"[VERIFY COMMAND] Error while getting Role Guild Member ")
         # Adds the roles
         try:
             await member.add_roles(role)
             await member.add_roles(annPing)
             await member.add_roles(evePing)
         except:
-            print(f"Error assigning role 1 for {name}")
+            logmsg.logmsg(f"[VERIFY COMMAND] Error assigning role 1 for {name}")
         try:
             await member.add_roles(rankrole)
         except:
-            print(f"Error assigning Rank role for {name}")
+            logmsg.logmsg(f"[VERIFY COMMAND] Error assigning Rank role for {name}")
         try:
             if guildmember == "Gmember":
                 await member.add_roles(ankrole)
         except:
-            print(f"Error assigning member role for {name}")
+            logmsg.logmsg(f"[VERIFY COMMAND] Error assigning member role for {name}")
 
         # Changes Nickname
         try:
@@ -137,13 +136,30 @@ async def verify(ctx, name):
         await ctx.send("Error, maybe try again in a bit")
 
 
+@client.command()
+async def tryhard(ctx):
+    return
+    wait = await ctx.send("Please wait a bit while the Bot checks your stats!")
+    out = requesthandler.tryhard(ctx.message.author.display_name)
+    if out == "a":
+        await wait.delete()
+        await ctx.send("Good News! You meet the requirements (Skill Average over 30). I gave you the Discord role.")
+        await ctx.send("a")
+    elif out == "b":
+        await ctx.send("b")
+    elif out == "c":
+        await ctx.send("c")
+    else:
+        return
 # Setup part, NOT COMPLETED
+
+
 @client.event
 async def on_message(message):
 
     if message.content.startswith('v!setup'):
         # return as its not finished yet!
-        # return
+        return
         channel = message.channel
         # Timout for answering
         default_timeout = int(1000)
@@ -179,7 +195,8 @@ async def on_message(message):
         embed = discord.Embed()
         embed.add_field(name="Basic Info", value="\n**A few things before we start:\n1.** Only " + author + " can respond to this message in the channel " + channelMention + " , Everything else will be ignored\n**2.** The Timeout for answering a message is " + default_timeout +
                         " seconds unless noted otherwise\n**3.** All info that you enter here is stored on a server and is only changed for this Discord Server\n**4.** Info wont be deleted if you kick or ban the Bot, however you can rerun the Setup at any time.\n\nType **start** to continue with the setup", inline=False)
-        embed.set_footer(text=f"Coded by Lulonaut", icon_url = "https://avatars2.githubusercontent.com/u/67191924?s=400&u=442455cc574e59445631175d00733d055991a336&v=4")
+        embed.set_footer(text=f"Coded by Lulonaut",
+                         icon_url="https://avatars2.githubusercontent.com/u/67191924?s=400&u=442455cc574e59445631175d00733d055991a336&v=4")
         await channel.send(embed=embed)
         time.sleep(1)
         # First "start" Question
@@ -195,7 +212,8 @@ async def on_message(message):
         embed.add_field(name="Verify Role", value="Okay we can start!\nPlease enter the Role people should get after verifying. This is required for minimal Operation and you can stop after this if you want.", inline=False)
         embed.add_field(name="How to respond",
                         value="Please respond with the exact Role Name and make sure it exists!\nI would suggest copying it from the Role Menu", inline=False)
-        embed.set_footer(text=f"Coded by Lulonaut", icon_url = "https://avatars2.githubusercontent.com/u/67191924?s=400&u=442455cc574e59445631175d00733d055991a336&v=4")
+        embed.set_footer(text=f"Coded by Lulonaut",
+                         icon_url="https://avatars2.githubusercontent.com/u/67191924?s=400&u=442455cc574e59445631175d00733d055991a336&v=4")
         startEmbed = await channel.send(embed=embed)
         # verify role question
         try:
@@ -205,17 +223,17 @@ async def on_message(message):
 
             # TODO First variable to be saved
             toSaveVROLE = msg.content
-            print(toSaveVROLE)
+            logmsg.logmsg(toSaveVROLE)
             client.delete_message(startEmbed)
             await channel.send("Input saved!")
-
 
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
             return
         # rank role embed
-        embed=discord.Embed()
-        embed.add_field(name="Rank Role", value="The Bot can check the Rank a player has and give them the corresponding role. Do you want this enabled?", inline=True)
+        embed = discord.Embed()
+        embed.add_field(
+            name="Rank Role", value="The Bot can check the Rank a player has and give them the corresponding role. Do you want this enabled?", inline=True)
         embed.add_field(name="How to Respond", value="Simply respond with ""yes"" or ""no"", or if you dont want anything else after this (Check GIthub README for info) type ""stop"".\nWhen responding with yes please make sure the following Roles exist: 1. VIP 2. VIP+ 3. MVP 4. MVP+ 5. MVP++\nIf they dont exist the feature wont work, but it wont break anything else.", inline=True)
         await channel.send(embed=embed)
 
