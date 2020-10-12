@@ -34,10 +34,10 @@ async def on_member_join(member):
     await member.add_roles(role)
     logmsg.logmsg(f"[NEW MEMBER] {member} was given {role}")
 
+
 @client.command(aliases=["git"])
 async def github(ctx):
     await ctx.send("This Bot is open-source and you can take a look at it here: https://github.com/Lulonaut/Hypixel-Verify ")
-
 
 
 @client.command()
@@ -150,8 +150,8 @@ async def tryhard(ctx):
     # Tryhard Role in the Discord
     tryhardrole = discord.utils.get(ctx.guild.roles, name="TryHard")
     # The ticket Channel where they can open tickets
-    ticket_channel = client.get_channel("737011590729039954")
-    
+    ticket_channel = client.get_channel(737011590729039954)
+
     # Message that gets deleted after its done
     wait = await ctx.send("Please wait a bit while the Bot checks your stats!")
     # Requests Output for the users Nickname, which should be their IGN set in v!verify
