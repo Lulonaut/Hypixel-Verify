@@ -34,7 +34,10 @@ async def on_member_join(member):
     await member.add_roles(role)
     logmsg.logmsg(f"[NEW MEMBER] {member} was given {role}")
 
-# Verify command
+@client.command(aliases=["git"])
+async def github(ctx):
+    await ctx.send("This Bot is open-source and you can take a look at it here: ")
+
 
 
 @client.command()
@@ -91,7 +94,8 @@ async def verify(ctx, name):
                 ctx.guild.roles, name="Announcement Ping")
             evePing = discord.utils.get(ctx.guild.roles, name="Event Ping")
         except:
-            logmsg.logmsg(f"[VERIFY COMMAND] Error while getting Role {ROLE} or pings")
+            logmsg.logmsg(
+                f"[VERIFY COMMAND] Error while getting Role {ROLE} or pings")
         try:
             rankrole = discord.utils.get(ctx.guild.roles, name=rank)
         except:
@@ -99,23 +103,27 @@ async def verify(ctx, name):
         try:
             ankrole = discord.utils.get(ctx.guild.roles, name=mrole)
         except:
-            logmsg.logmsg(f"[VERIFY COMMAND] Error while getting Role Guild Member ")
+            logmsg.logmsg(
+                f"[VERIFY COMMAND] Error while getting Role Guild Member ")
         # Adds the roles
         try:
             await member.add_roles(role)
             await member.add_roles(annPing)
             await member.add_roles(evePing)
         except:
-            logmsg.logmsg(f"[VERIFY COMMAND] Error assigning role 1 for {name}")
+            logmsg.logmsg(
+                f"[VERIFY COMMAND] Error assigning role 1 for {name}")
         try:
             await member.add_roles(rankrole)
         except:
-            logmsg.logmsg(f"[VERIFY COMMAND] Error assigning Rank role for {name}")
+            logmsg.logmsg(
+                f"[VERIFY COMMAND] Error assigning Rank role for {name}")
         try:
             if guildmember == "Gmember":
                 await member.add_roles(ankrole)
         except:
-            logmsg.logmsg(f"[VERIFY COMMAND] Error assigning member role for {name}")
+            logmsg.logmsg(
+                f"[VERIFY COMMAND] Error assigning member role for {name}")
 
         # Changes Nickname
         try:
@@ -138,17 +146,40 @@ async def verify(ctx, name):
 
 @client.command()
 async def tryhard(ctx):
-    return
+    # return
+    # Tryhard Role in the Discord
+    tryhardrole = discord.utils.get(ctx.guild.roles, name="TryHard")
+    # The ticket Channel where they can open tickets
+    ticket_channel = client.get_channel("737011590729039954")
+    
+    # Message that gets deleted after its done
     wait = await ctx.send("Please wait a bit while the Bot checks your stats!")
+    # Requests Output for the users Nickname, which should be their IGN set in v!verify
     out = requesthandler.tryhard(ctx.message.author.display_name)
+    await wait.delete()
+    # assigns Roles for the specific Outputs
     if out == "a":
-        await wait.delete()
-        await ctx.send("Good News! You meet the requirements (Skill Average over 30). I gave you the Discord role.")
-        await ctx.send("a")
+        try:
+            await ctx.message.author.add_roles(tryhardrole)
+        except:
+            logmsg.logmsg(
+                f"f[TRYHARD COMMAND] Error assigning Role to {ctx.message.author.display_name}")
+            await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If dont and this Issue keeps coming, please open a ticket or contact a staff Member!")
+            return
+
+        await ctx.send(f"Good News! You meet the requirements (Skill Average over 30). I gave you the Discord role. To recive the Role in game please open a Ticket in {ticket_channel.mention}")
     elif out == "b":
-        await ctx.send("b")
+        try:
+            await ctx.message.author.add_roles(tryhardrole)
+        except:
+            logmsg.logmsg(
+                f"f[TRYHARD COMMAND] Error assigning Role to {ctx.message.author.display_name}")
+            await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If dont and this Issue keeps coming, please open a ticket or contact a staff Member!")
+            return
+
+        await ctx.send(f"Good News! You meet the requirements (Skill Average over 25 and two Slayers at lvl7). I gave you the Discord role. To recive the Role in game please open a Ticket in {ticket_channel.mention}")
     elif out == "c":
-        await ctx.send("c")
+        await ctx.send(f"Sorry, it looks you are not meeting the requirements. If you are sure that you meet them please make sure your Skill API is turned on and try again in a few minutes. If you still have Issues create a ticket {ticket_channel.mention} or contact a staff Member")
     else:
         return
 # Setup part, NOT COMPLETED
