@@ -36,7 +36,7 @@ async def on_member_join(member):
 
 @client.command(aliases=["git"])
 async def github(ctx):
-    await ctx.send("This Bot is open-source and you can take a look at it here: ")
+    await ctx.send("This Bot is open-source and you can take a look at it here: https://github.com/Lulonaut/Hypixel-Verify ")
 
 
 
