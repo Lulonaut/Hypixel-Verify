@@ -7,7 +7,7 @@ from discord.utils import get
 from Functions import getdiscord, key, requesthandler, logmsg
 import asyncio
 
-# Discord Key used to run the Bot
+# Discord Token used to run the Bot
 KEY = key.key()
 # The Prefix of the Bot
 PREFIX = "v!"
@@ -21,6 +21,7 @@ ankrole = None
 # Sets Command Prefix
 client = commands.Bot(command_prefix=PREFIX)
 
+TICKET_CHANNEL = client.get_channel(737011590729039954)
 
 @client.event
 async def on_ready():
@@ -150,7 +151,7 @@ async def tryhard(ctx):
     # Tryhard Role in the Discord
     tryhardrole = discord.utils.get(ctx.guild.roles, name="TryHard")
     # The ticket Channel where they can open tickets
-    ticket_channel = client.get_channel(737011590729039954)
+
 
     # Message that gets deleted after its done
     wait = await ctx.send("Please wait a bit while the Bot checks your stats!")
@@ -167,7 +168,7 @@ async def tryhard(ctx):
             await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If dont and this Issue keeps coming, please open a ticket or contact a staff Member!")
             return
 
-        await ctx.send(f"Good News! You meet the requirements (Skill Average over 30). I gave you the Discord role. To recive the Role in game please open a Ticket in {ticket_channel.mention}")
+        await ctx.send(f"Good News! You meet the requirements (Skill Average over 30). I gave you the Discord role. To recive the Role in game please open a Ticket in {TICKET_CHANNEL.mention}")
     elif out == "b":
         try:
             await ctx.message.author.add_roles(tryhardrole)
@@ -177,9 +178,9 @@ async def tryhard(ctx):
             await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If dont and this Issue keeps coming, please open a ticket or contact a staff Member!")
             return
 
-        await ctx.send(f"Good News! You meet the requirements (Skill Average over 25 and two Slayers at lvl7). I gave you the Discord role. To recive the Role in game please open a Ticket in {ticket_channel.mention}")
+        await ctx.send(f"Good News! You meet the requirements (Skill Average over 25 and two Slayers at lvl7). I gave you the Discord role. To recive the Role in game please open a Ticket in {TICKET_CHANNEL.mention}")
     elif out == "c":
-        await ctx.send(f"Sorry, it looks you are not meeting the requirements. If you are sure that you meet them please make sure your Skill API is turned on and try again in a few minutes. If you still have Issues create a ticket {ticket_channel.mention} or contact a staff Member")
+        await ctx.send(f"Sorry, it looks you are not meeting the requirements. If you are sure that you meet them please make sure your Skill API is turned on and try again in a few minutes. If you still have Issues create a ticket {TICKET_CHANNEL.mention} or contact a staff Member")
     else:
         return
 # Setup part, NOT COMPLETED
@@ -265,9 +266,9 @@ async def on_message(message):
         embed = discord.Embed()
         embed.add_field(
             name="Rank Role", value="The Bot can check the Rank a player has and give them the corresponding role. Do you want this enabled?", inline=True)
-        embed.add_field(name="How to Respond", value="Simply respond with ""yes"" or ""no"", or if you dont want anything else after this (Check GIthub README for info) type ""stop"".\nWhen responding with yes please make sure the following Roles exist: 1. VIP 2. VIP+ 3. MVP 4. MVP+ 5. MVP++\nIf they dont exist the feature wont work, but it wont break anything else.", inline=True)
+        embed.add_field(name="How to Respond", value="Simply respond with ""yes"" or ""no"", or if you dont want anything else after this (Check Github README for info) type ""stop"" to end the setup now.\nWhen responding with yes please make sure the following Roles exist: 1. VIP 2. VIP+ 3. MVP 4. MVP+ 5. MVP++\nIf they dont exist the feature wont work, but it wont break anything else.", inline=True)
         await channel.send(embed=embed)
-
+        
         return
 
     await client.process_commands(message)
