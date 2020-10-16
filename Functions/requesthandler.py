@@ -1,8 +1,5 @@
 import requests
-import logmsg
-
-testsubject = "Hammerkit"
-
+from Functions import logmsg
 
 def fetch(url):
     return (lambda u: requests.get(url).json())(url)
@@ -72,4 +69,3 @@ def tryhard(name):
         # TODO c: You dont meet it, sorry!
         return "c"
 
-print(tryhard("L"))
