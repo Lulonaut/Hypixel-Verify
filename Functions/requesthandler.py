@@ -1,5 +1,5 @@
 import requests
-from Functions import logmsg
+import logmsg
 
 testsubject = "Hammerkit"
 
@@ -16,11 +16,16 @@ def tryhard(name):
     slayerdata = fetch(f"http://sky.shiiyu.moe/api/v2/slayers/{name}")
     try:
         data = data['profiles']
-    except:
+    except KeyError:
         tolog = (f"[Tryhard Command] error while resolving request for {name}")
         logmsg.logmsg(tolog)
         # TODO d: Error with your Username or you dont play Skyblock!
         return "d"
+
+    except:
+        # TODO e: Error with API Try again later
+        return "e"
+
     keys = list(data.keys())
     tosearch = []
     for i in range(5):
@@ -66,3 +71,5 @@ def tryhard(name):
     else:
         # TODO c: You dont meet it, sorry!
         return "c"
+
+print(tryhard("L"))

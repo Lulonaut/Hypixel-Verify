@@ -23,6 +23,7 @@ client = commands.Bot(command_prefix=PREFIX)
 
 TICKET_CHANNEL = client.get_channel(737011590729039954)
 
+
 @client.event
 async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Lulonaut/Hypixel-Verify"))
@@ -152,7 +153,6 @@ async def tryhard(ctx):
     tryhardrole = discord.utils.get(ctx.guild.roles, name="TryHard")
     # The ticket Channel where they can open tickets
 
-
     # Message that gets deleted after its done
     wait = await ctx.send("Please wait a bit while the Bot checks your stats!")
     # Requests Output for the users Nickname, which should be their IGN set in v!verify
@@ -165,7 +165,7 @@ async def tryhard(ctx):
         except:
             logmsg.logmsg(
                 f"f[TRYHARD COMMAND] Error assigning Role to {ctx.message.author.display_name}")
-            await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If dont and this Issue keeps coming, please open a ticket or contact a staff Member!")
+            await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If you dont have higher perms and this Issue keeps coming, please open a ticket or contact a staff Member!")
             return
 
         await ctx.send(f"Good News! You meet the requirements (Skill Average over 30). I gave you the Discord role. To recive the Role in game please open a Ticket in {TICKET_CHANNEL.mention}")
@@ -175,14 +175,24 @@ async def tryhard(ctx):
         except:
             logmsg.logmsg(
                 f"f[TRYHARD COMMAND] Error assigning Role to {ctx.message.author.display_name}")
-            await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If dont and this Issue keeps coming, please open a ticket or contact a staff Member!")
+            await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If you dont have higher perms and this Issue keeps coming, please open a ticket or contact a staff Member!")
             return
 
         await ctx.send(f"Good News! You meet the requirements (Skill Average over 25 and two Slayers at lvl7). I gave you the Discord role. To recive the Role in game please open a Ticket in {TICKET_CHANNEL.mention}")
+
     elif out == "c":
         await ctx.send(f"Sorry, it looks you are not meeting the requirements. If you are sure that you meet them please make sure your Skill API is turned on and try again in a few minutes. If you still have Issues create a ticket {TICKET_CHANNEL.mention} or contact a staff Member")
-    else:
+
+    elif out == "d":
+        await ctx.send("There was an Error while getting your Profiles, please make sure your Discord Nickname is your IGN and you played Skyblock before. ")
         return
+
+    elif out == "e":
+        await ctx.send("Looks like the API is down, please try again in a few minutes.")
+
+    else:
+        await ctx.send("This shouldnt happen, please be so kind and report it :D ")
+
 # Setup part, NOT COMPLETED
 
 
@@ -268,7 +278,7 @@ async def on_message(message):
             name="Rank Role", value="The Bot can check the Rank a player has and give them the corresponding role. Do you want this enabled?", inline=True)
         embed.add_field(name="How to Respond", value="Simply respond with ""yes"" or ""no"", or if you dont want anything else after this (Check Github README for info) type ""stop"" to end the setup now.\nWhen responding with yes please make sure the following Roles exist: 1. VIP 2. VIP+ 3. MVP 4. MVP+ 5. MVP++\nIf they dont exist the feature wont work, but it wont break anything else.", inline=True)
         await channel.send(embed=embed)
-        
+
         return
 
     await client.process_commands(message)
