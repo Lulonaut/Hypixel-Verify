@@ -152,6 +152,7 @@ async def tryhard(ctx):
     # Tryhard Role in the Discord
     tryhardrole = discord.utils.get(ctx.guild.roles, name="TryHard")
     # The ticket Channel where they can open tickets
+    TICKET_CHANNEL = client.get_channel(737011590729039954)
 
     # Message that gets deleted after its done
     wait = await ctx.send("Please wait a bit while the Bot checks your stats!")
@@ -168,7 +169,7 @@ async def tryhard(ctx):
             await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If you dont have higher perms and this Issue keeps coming, please open a ticket or contact a staff Member!")
             return
 
-        await ctx.send(f"Good News! You meet the requirements (Skill Average over 30). I gave you the Discord role. To recive the Role in game please open a Ticket in {TICKET_CHANNEL.mention}")
+        await ctx.send(f"Good News! You meet the requirements (Skill Average over 30). I gave you the Discord role. To recive the Role in game please open a Ticket")
     elif out == "b":
         try:
             await ctx.message.author.add_roles(tryhardrole)
@@ -178,10 +179,10 @@ async def tryhard(ctx):
             await ctx.send("I cant give you the Tryhard Role, probably because you have higher Permissions than me. If you dont have higher perms and this Issue keeps coming, please open a ticket or contact a staff Member!")
             return
 
-        await ctx.send(f"Good News! You meet the requirements (Skill Average over 25 and two Slayers at lvl7). I gave you the Discord role. To recive the Role in game please open a Ticket in {TICKET_CHANNEL.mention}")
+        await ctx.send(f"Good News! You meet the requirements (Skill Average over 25 and two Slayers at lvl7). I gave you the Discord role. To recive the Role in game please open a Ticket")
 
     elif out == "c":
-        await ctx.send(f"Sorry, it looks you are not meeting the requirements. If you are sure that you meet them please make sure your Skill API is turned on and try again in a few minutes. If you still have Issues create a ticket {TICKET_CHANNEL.mention} or contact a staff Member")
+        await ctx.send(f"Sorry, it looks you are not meeting the requirements. If you are sure that you meet them please make sure your Skill API is turned on and try again in a few minutes. If you still have Issues create a ticket  or contact a staff Member")
 
     elif out == "d":
         await ctx.send("There was an Error while getting your Profiles, please make sure your Discord Nickname is your IGN and you played Skyblock before. ")
