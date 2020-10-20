@@ -21,8 +21,6 @@ ankrole = None
 # Sets Command Prefix
 client = commands.Bot(command_prefix=PREFIX)
 
-#TICKET_CHANNEL = client.get_channel(737011590729039954)
-
 
 @client.event
 async def on_ready():
@@ -351,7 +349,7 @@ async def checkmsg(ctx):
 
     embed = discord.Embed(title="Current Message Stats")
     embed.add_field(name="stats", value=finout, inline=True)
-    embed.add_field(name="reset", value="To reset these values type v!clearmsg", inline=False)
+    #embed.add_field(name="reset", value="To reset these values type v!clearmsg", inline=False)
     await ctx.send(embed=embed)
 
 
