@@ -2,7 +2,11 @@ import datetime
 
 FILE = "latest.log"
 
+LOGGING = True
+
 def logmsg(message):
+    if LOGGING == False:
+        return
     time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     msg=(f"[{time}] {message}\n")
     f = open(FILE,"a")
