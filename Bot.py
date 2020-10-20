@@ -355,4 +355,4 @@ async def checkmsg(ctx):
     await ctx.send(embed=embed)
 
 
-client.run("NzY3NzE2MzAzOTQ3NDMxOTM4.X419hg.wQuK1KCs2EL6EYsXY0o9EOMuWtg")
+client.run(KEY)
