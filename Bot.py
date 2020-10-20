@@ -4,7 +4,7 @@ import discord
 import discord.utils
 from discord.ext import commands
 from discord.utils import get
-from Functions import getdiscord, key, requesthandler, logmsg
+from Functions import getdiscord, key, requesthandler, logmsg, msgstorage
 import asyncio
 
 # Discord Token used to run the Bot
@@ -21,7 +21,7 @@ ankrole = None
 # Sets Command Prefix
 client = commands.Bot(command_prefix=PREFIX)
 
-TICKET_CHANNEL = client.get_channel(737011590729039954)
+#TICKET_CHANNEL = client.get_channel(737011590729039954)
 
 
 @client.event
@@ -284,4 +284,75 @@ async def on_message(message):
 
     await client.process_commands(message)
 
-client.run(KEY)
+
+@client.event
+async def on_message(message):
+    uid = str(message.author.id)
+    try:
+        msgstorage.Handle(uid, "add")
+        logmsg.logmsg(f"[NEW MESSAGE] added one message for {message.author}")
+    except:
+        logmsg.logmsg(
+            f"[NEW MESSAGE] Error while adding message for {message.author}")
+    await client.process_commands(message)
+
+
+@client.event
+async def on_message_delete(message):
+    uid = str(message.author.id)
+    try:
+        msgstorage.Handle(uid, "remove")
+        logmsg.logmsg(
+            f"[MESSAGE DELETED] removed one message for {message.author}")
+    except:
+        logmsg.logmsg(
+            f"[MESSAGE DELETED] Error while removing message for {message.author}")
+    await client.process_commands(message)
+
+
+@client.command()
+async def checkmsg(ctx):
+    def getmsgcount():
+        output = []
+        messages = msgstorage.loadfromjson()
+        messages_sorted = sorted(messages, key=messages.get, reverse=True)
+
+        for i in range(10):
+            try:
+                currp = str(messages_sorted[i])
+                currpp = messages[currp]
+                if currp == "Placeholder":
+                    print("PLACEHOLDER DETECTED")
+                    return output
+                #    await ctx.send(client.get_user(422795744722812930).mention)
+                currp = int(currp)
+                output.append(
+                    f"{client.get_user(currp).mention} has {currpp} Messages and is Place {i+1}")
+
+            except IndexError:
+                print("Index error")
+
+            except:
+                print("some other error")
+
+        return output
+
+    try:
+        output = getmsgcount()
+    except:
+        await ctx.send("error :(")
+    try:
+        finout = f"{output[0]}\n{output[1]}\n{output[2]}\n{output[3]}\n{output[4]}\n{output[5]}\n{output[6]}\n{output[7]}\n{output[8]}\n{output[9]}\n"
+    except:
+        try:
+            finout = f"{output[0]}\n{output[1]}\n{output[2]}"
+        except:
+            await ctx.send("Can't get usable stats, please make sure at least 3 People typed since the Bot was here.")
+
+    embed = discord.Embed(title="Current Message Stats")
+    embed.add_field(name="stats", value=finout, inline=True)
+    embed.add_field(name="reset", value="To reset these values type v!clearmsg", inline=False)
+    await ctx.send(embed=embed)
+
+
+client.run("NzY3NzE2MzAzOTQ3NDMxOTM4.X419hg.wQuK1KCs2EL6EYsXY0o9EOMuWtg")
