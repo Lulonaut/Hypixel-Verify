@@ -326,7 +326,6 @@ async def checkmsg(ctx):
                 if currp == "Placeholder":
                     print("PLACEHOLDER DETECTED")
                     return output
-                #    await ctx.send(client.get_user(422795744722812930).mention)
                 currp = int(currp)
                 output.append(
                     f"{client.get_user(currp).mention} has {currpp} Messages and is Place {i+1}")
@@ -357,4 +356,4 @@ async def checkmsg(ctx):
     await ctx.send(embed=embed)
 
 
-client.run(KEY)
+client.run("NzY3NzE2MzAzOTQ3NDMxOTM4.X419hg.jE3A-yAFf-L7PyMJThbIrCDgu48")
