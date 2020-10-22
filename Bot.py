@@ -4,7 +4,7 @@ import discord
 import discord.utils
 from discord.ext import commands
 from discord.utils import get
-from Functions import getdiscord, key, requesthandler, logmsg, msgstorage
+from Functions import getdiscord, key, requesthandler, logmsg, msgstorage, Bots
 import asyncio
 
 # Discord Token used to run the Bot
@@ -285,13 +285,19 @@ async def on_message(message):
 
 @client.event
 async def on_message(message):
-    uid = str(message.author.id)
+    BotList = Bots.getBots()
+    if str(message.author) in BotList:
+        logmsg.logmsg(
+            f"[NEW MESSAGE] Not counting message from {message.author} because its a Bot")
+        return
 
     if str(message.channel).startswith("bz_"):
-        logmsg.logmsg(f"[NEW MESSAGE] Not counting message from {message.author} because it's in Channel {message.channel} which is a Bascal Channel")
+        logmsg.logmsg(
+            f"[NEW MESSAGE] Not counting message from {message.author} because it's in Channel {message.channel} which is a Bascal Channel")
         return
+
     try:
-        msgstorage.Handle(uid, "add")
+        msgstorage.Handle(str(message.author.id), "add")
         logmsg.logmsg(f"[NEW MESSAGE] added one message for {message.author}")
     except:
         logmsg.logmsg(
