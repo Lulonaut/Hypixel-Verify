@@ -286,6 +286,10 @@ async def on_message(message):
 @client.event
 async def on_message(message):
     uid = str(message.author.id)
+
+    if str(message.channel).startswith("bz_"):
+        logmsg.logmsg(f"[NEW MESSAGE] Not counting message from {message.author} because it's in Channel {message.channel} which is a Bascal Channel")
+        return
     try:
         msgstorage.Handle(uid, "add")
         logmsg.logmsg(f"[NEW MESSAGE] added one message for {message.author}")
@@ -353,4 +357,4 @@ async def checkmsg(ctx):
     await ctx.send(embed=embed)
 
 
-client.run(KEY)
+client.run("NzY3NzE2MzAzOTQ3NDMxOTM4.X419hg.rwc31y0GBABv-GyAnLrBF7xpGAI")
