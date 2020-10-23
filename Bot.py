@@ -294,6 +294,7 @@ async def on_message(message):
     if str(message.channel).startswith("bz_"):
         logmsg.logmsg(
             f"[NEW MESSAGE] Not counting message from {message.author} because it's in Channel {message.channel} which is a Bascal Channel")
+        await client.process_commands(message)
         return
 
     try:
@@ -307,9 +308,8 @@ async def on_message(message):
 
 @client.event
 async def on_message_delete(message):
-    uid = str(message.author.id)
     try:
-        msgstorage.Handle(uid, "remove")
+        msgstorage.Handle(str(message.author.id), "remove")
         logmsg.logmsg(
             f"[MESSAGE DELETED] removed one message for {message.author}")
     except:
@@ -360,6 +360,7 @@ async def checkmsg(ctx):
     embed.add_field(name="stats", value=finout, inline=True)
     #embed.add_field(name="reset", value="To reset these values type v!clearmsg", inline=False)
     await ctx.send(embed=embed)
+
 
 
 client.run(KEY)
