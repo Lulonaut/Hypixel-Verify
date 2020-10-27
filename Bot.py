@@ -155,7 +155,12 @@ async def tryhard(ctx):
     # Message that gets deleted after its done
     wait = await ctx.send("Please wait a bit while the Bot checks your stats!")
     # Requests Output for the users Nickname, which should be their IGN set in v!verify
-    out = requesthandler.tryhard(ctx.message.author.display_name)
+    out = None
+    try:
+        out = requesthandler.tryhard(ctx.message.author.display_name)
+    except:
+        await ctx.send("Looks like the API is down or some other Error occured :(")
+
     await wait.delete()
     # assigns Roles for the specific Outputs
     if out == "a":
@@ -189,8 +194,11 @@ async def tryhard(ctx):
     elif out == "e":
         await ctx.send("Looks like the API is down, please try again in a few minutes.")
 
+    elif out == None:
+        await ctx.send("This shouldnt happen, please be so kind and report it :D")
+
     else:
-        await ctx.send("This shouldnt happen, please be so kind and report it :D ")
+        await ctx.send("This shouldnt happen, please be so kind and report it :D")
 
 # Setup part, NOT COMPLETED
 
@@ -293,7 +301,7 @@ async def on_message(message):
 
     if str(message.channel).startswith("bz_"):
         logmsg.logmsg(
-            f"[NEW MESSAGE] Not counting message from {message.author} because it's in Channel {message.channel} which is a Bascal Channel")
+            f"[NEW MESSAGE] Not counting message from {message.author} because it's in Channel {message.channel} which is a Bazcal Channel")
         await client.process_commands(message)
         return
 
@@ -360,7 +368,6 @@ async def checkmsg(ctx):
     embed.add_field(name="stats", value=finout, inline=True)
     #embed.add_field(name="reset", value="To reset these values type v!clearmsg", inline=False)
     await ctx.send(embed=embed)
-
 
 
 client.run(KEY)
