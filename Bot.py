@@ -1,14 +1,23 @@
+import os
 import re
 import time
 import discord
 import discord.utils
+import asyncio
+import EDITME as tkn
 from discord.ext import commands
 from discord.utils import get
-from Functions import getdiscord, key, requesthandler, logmsg, msgstorage, Bots
-import asyncio
+from Functions import getdiscord, requesthandler, logmsg, msgstorage, Bots
 
 # Discord Token used to run the Bot
-KEY = key.key()
+try:
+    KEY = tkn.TOKEN
+except:
+    print("Looks like there is no Token in the File, please add one (dont forget to save) and try again!")
+    ex = input("Press any key to close")
+    if ex:
+        exit()
+
 # The Prefix of the Bot
 PREFIX = "v!"
 # The Role it gives People
@@ -369,5 +378,8 @@ async def checkmsg(ctx):
     #embed.add_field(name="reset", value="To reset these values type v!clearmsg", inline=False)
     await ctx.send(embed=embed)
 
-
-client.run(KEY)
+try:
+    client.run(KEY)
+except:
+    print(
+        f"The Bot got the following Token: {KEY} but it looks like its invalid! Please add a valid one and try again.")
