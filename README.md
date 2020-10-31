@@ -27,7 +27,7 @@ discord - [discord.py](https://discordpy.readthedocs.io/en/latest/) Libary
 
 requests - Requests to the API [click](https://docs.slothpixel.me/)
 
-### Command to install all packages: 
+### Installing packages: 
 
 First, if you didn't already do it, clone the repo to your PC with the following command:
 
@@ -56,12 +56,5 @@ If you followed the Web Page step by step the Bot should already be in your serv
 
 `python Bot.py`
 
-If you are doing this on a (Linux) Server 
 
 If you still have Problems getting the Bot running or have a general question, contact me on Discord: Lulonaut#3350
-
-MASTERPLAN(OMG NO WAY): 
-
-Finish README.md -> finish tut (add nano or vim for no GUI)
-
-maybe record vid to show everything from cloning to running the Bot
