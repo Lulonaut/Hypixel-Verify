@@ -4,10 +4,17 @@ import time
 import discord
 import discord.utils
 import asyncio
+import traceback
+import time
 import EDITME as tkn
 from discord.ext import commands
 from discord.utils import get
 from Functions import getdiscord, requesthandler, logmsg, msgstorage, Bots
+
+
+intents = discord.Intents.default()
+intents.members = True  # Subscribe to the privileged members intent.
+client = commands.Bot(command_prefix='v!', intents=intents)
 
 # Discord Token used to run the Bot
 try:
@@ -18,8 +25,6 @@ except:
     if ex:
         exit()
 
-# The Prefix of the Bot
-PREFIX = "v!"
 # The Role it gives People
 ROLE = "Hypixel Verified"
 # Role it gives new people that join
@@ -27,8 +32,7 @@ AUTOROLE = "Member"
 
 mrole = "Guild Member"
 ankrole = None
-# Sets Command Prefix
-client = commands.Bot(command_prefix=PREFIX)
+
 
 
 @client.event
@@ -318,8 +322,8 @@ async def on_message(message):
         msgstorage.Handle(str(message.author.id), "add")
         logmsg.logmsg(f"[NEW MESSAGE] added one message for {message.author}")
     except:
-        logmsg.logmsg(
-            f"[NEW MESSAGE] Error while adding message for {message.author}")
+        logmsg.logmsg(f"[NEW MESSAGE] Error while adding message for {message.author}")
+        traceback.print_exc()
     await client.process_commands(message)
 
 
@@ -341,7 +345,6 @@ async def checkmsg(ctx):
         output = []
         messages = msgstorage.loadfromjson()
         messages_sorted = sorted(messages, key=messages.get, reverse=True)
-
         for i in range(10):
             try:
                 currp = str(messages_sorted[i])
@@ -351,12 +354,13 @@ async def checkmsg(ctx):
                     return output
                 currp = int(currp)
                 output.append(
-                    f"{client.get_user(currp).mention} has {currpp} Messages and is Place {i+1}")
+                    f"{client.get_user(userid).mention} has {currpp} Messages and is Place {i+1}")
 
             except IndexError:
                 print("Index error")
 
             except:
+                traceback.print_exc()
                 print("some other error")
 
         return output
@@ -364,6 +368,7 @@ async def checkmsg(ctx):
     try:
         output = getmsgcount()
     except:
+        finout = "Error"
         await ctx.send("error :(")
     try:
         finout = f"{output[0]}\n{output[1]}\n{output[2]}\n{output[3]}\n{output[4]}\n{output[5]}\n{output[6]}\n{output[7]}\n{output[8]}\n{output[9]}\n"
@@ -371,6 +376,7 @@ async def checkmsg(ctx):
         try:
             finout = f"{output[0]}\n{output[1]}\n{output[2]}"
         except:
+            finout = "Error"
             await ctx.send("Can't get usable stats, please make sure at least 3 People typed since the Bot was here.")
 
     embed = discord.Embed(title="Current Message Stats")
@@ -383,3 +389,4 @@ try:
 except:
     print(
         f"The Bot got the following Token: {KEY} but it looks like its invalid! Please add a valid one and try again.")
+    traceback.print_exc()
