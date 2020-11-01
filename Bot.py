@@ -12,8 +12,7 @@ from discord.utils import get
 from Functions import getdiscord, requesthandler, logmsg, msgstorage, Bots
 
 
-intents = discord.Intents.default()
-intents.members = True  # Subscribe to the privileged members intent.
+intents = discord.Intents(members=True,presences=True, messages=True, guilds = True)
 client = commands.Bot(command_prefix='v!', intents=intents)
 
 # Discord Token used to run the Bot
@@ -32,7 +31,6 @@ AUTOROLE = "Member"
 
 mrole = "Guild Member"
 ankrole = None
-
 
 
 @client.event
@@ -322,7 +320,8 @@ async def on_message(message):
         msgstorage.Handle(str(message.author.id), "add")
         logmsg.logmsg(f"[NEW MESSAGE] added one message for {message.author}")
     except:
-        logmsg.logmsg(f"[NEW MESSAGE] Error while adding message for {message.author}")
+        logmsg.logmsg(
+            f"[NEW MESSAGE] Error while adding message for {message.author}")
         traceback.print_exc()
     await client.process_commands(message)
 
@@ -354,7 +353,7 @@ async def checkmsg(ctx):
                     return output
                 currp = int(currp)
                 output.append(
-                    f"{client.get_user(userid).mention} has {currpp} Messages and is Place {i+1}")
+                    f"<@!{currp}> has {currpp} Messages and is Place {i+1}")
 
             except IndexError:
                 print("Index error")
