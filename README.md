@@ -46,7 +46,9 @@ Note: You may need to use pip3.6 on Linux
 
 ### Bot token
 
-Learn how to get a token [here](https://discordpy.readthedocs.io/en/latest/discord.html#discord-intro)
+
+Learn how to get a token <a href="https://discordpy.readthedocs.io/en/latest/discord.html#discord-intro" target="_blank">here</a>
+
 
 After that open the "EDITME.py" File and replace the "Please fill me up :(" with it. Please dont remove the quotation marks! An example Line would look like this:
 
