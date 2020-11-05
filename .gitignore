@@ -4,3 +4,11 @@ varStorage.json
 workingdata.json
 KEY.txt
 latest.log
+.idea/.gitignore
+.idea/Hypixel-Verify.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.vscode/launch.json
+.vscode/settings.json
