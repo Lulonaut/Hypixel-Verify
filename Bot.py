@@ -12,7 +12,8 @@ from discord.utils import get
 from Functions import getdiscord, requesthandler, logmsg, msgstorage, Bots
 
 
-intents = discord.Intents(members=True,presences=True, messages=True, guilds = True)
+intents = discord.Intents(members=True, presences=True,
+                          messages=True, guilds=True)
 client = commands.Bot(command_prefix='v!', intents=intents)
 
 # Discord Token used to run the Bot
@@ -35,7 +36,8 @@ ankrole = None
 
 @client.event
 async def on_ready():
-    await client.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Lulonaut/Hypixel-Verify"))
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Lulonaut"
+                                                                                     "/Hypixel-Verify"))
     logmsg.logmsg("[INFO] NEW SESSION\n")
 
 
@@ -48,7 +50,8 @@ async def on_member_join(member):
 
 @client.command(aliases=["git"])
 async def github(ctx):
-    await ctx.send("This Bot is open-source and you can take a look at it here: https://github.com/Lulonaut/Hypixel-Verify ")
+    await ctx.send("This Bot is open-source and you can take a look at it here: "
+                   "https://github.com/Lulonaut/Hypixel-Verify ")
 
 
 @client.command()
@@ -388,4 +391,3 @@ try:
 except:
     print(
         f"The Bot got the following Token: {KEY} but it looks like its invalid! Please add a valid one and try again.")
-    traceback.print_exc()
