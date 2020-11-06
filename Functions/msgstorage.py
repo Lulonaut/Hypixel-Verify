@@ -41,12 +41,13 @@ def loadfromjson():
         addentry("Placeholder")
     except FileNotFoundError:
         try:
-            f=open("messageCount.json","w+")
+            f = open("messageCount.json", "w+")
             f.close()
         except:
-            logmsg.logmsg("Cant create File for messages! Please create it manually with the filename: messageCount.json")
+            logmsg.logmsg(
+                "Cant create File for messages! Please create it manually with the filename: messageCount.json")
 
-    
+
 def addMessage(Name):
     replist = loadfromjson()
     if Name in replist:
@@ -83,4 +84,3 @@ def addentry(Name):
     replist[Name] = 0
     savetojson(replist)
     return "done"
-
