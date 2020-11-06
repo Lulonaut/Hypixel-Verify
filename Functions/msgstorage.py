@@ -1,5 +1,5 @@
 import json
-import logmsg
+from Functions import logmsg
 
 replist = {}
 
@@ -39,14 +39,6 @@ def loadfromjson():
             return replist
     except json.decoder.JSONDecodeError:
         addentry("Placeholder")
-    except FileNotFoundError:
-        try:
-            f = open("messageCount.json", "w+")
-            f.close()
-        except:
-            logmsg.logmsg(
-                "Cant create File for messages! Please create it manually with the filename (exactly like this!!): messageCount.json")
-
 
 def addMessage(Name):
     replist = loadfromjson()
@@ -81,6 +73,7 @@ def checkrep(Name):
 
 
 def addentry(Name):
+    replist = loadfromjson()
     replist[Name] = 0
     savetojson(replist)
     return "done"

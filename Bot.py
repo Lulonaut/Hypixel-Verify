@@ -363,7 +363,6 @@ async def checkmsg(ctx):
                 print("Index error")
 
             except:
-                traceback.print_exc()
                 print("some other error")
 
         return output
