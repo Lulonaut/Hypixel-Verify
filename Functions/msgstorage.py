@@ -1,4 +1,5 @@
 import json
+import logmsg
 
 replist = {}
 
@@ -34,15 +35,20 @@ def savetojson(dict):
 def loadfromjson():
     try:
         with open('messageCount.json') as json_file:
-            global replist
             replist = json.load(json_file)
             return replist
     except json.decoder.JSONDecodeError:
         addentry("Placeholder")
+    except FileNotFoundError:
+        try:
+            f=open("messageCount.json","w+")
+            f.close()
+        except:
+            logmsg.logmsg("Cant create File for messages! Please create it manually with the filename: messageCount.json")
 
-
+    
 def addMessage(Name):
-    loadfromjson()
+    replist = loadfromjson()
     if Name in replist:
         u = replist[Name]
         u = int(u)
@@ -54,7 +60,7 @@ def addMessage(Name):
 
 
 def removeMessage(Name):
-    loadfromjson()
+    replist = loadfromjson()
     if Name in replist:
         u = replist[Name]
         u = int(u)
@@ -66,7 +72,7 @@ def removeMessage(Name):
 
 
 def checkrep(Name):
-    loadfromjson()
+    replist = loadfromjson()
     try:
         return replist[Name]
     except:

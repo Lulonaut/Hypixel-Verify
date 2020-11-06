@@ -1,3 +1,4 @@
+from logging import log
 import os
 import re
 import time
@@ -9,7 +10,7 @@ import time
 import EDITME as tkn
 from discord.ext import commands
 from discord.utils import get
-from Functions import getdiscord, requesthandler, logmsg, msgstorage, Bots
+from Functions import getdiscord, requesthandler, logmsg, msgstorage, Bots, allowed
 
 
 intents = discord.Intents(members=True, presences=True,
@@ -385,6 +386,39 @@ async def checkmsg(ctx):
     embed.add_field(name="stats", value=finout, inline=True)
     #embed.add_field(name="reset", value="To reset these values type v!clearmsg", inline=False)
     await ctx.send(embed=embed)
+
+
+@client.command()
+async def removemessages(ctx):
+    logmsg.logmsg(f"[CLEARING MESSAGES] Attempt by {ctx.author}")
+
+    if str(ctx.author) in allowed.getName():
+        logmsg.logmsg(f"[CLEARING MESSAGES] {ctx.author} is on the List")
+        pass
+    else:
+        print(ctx.author.id)
+
+        logmsg.logmsg(
+            f"[CLEARING MESSAGES] {ctx.author} is not in the allowed list!")
+        await ctx.send("Sorry, you dont have the permissions to do this. If you want to get on the list dm me :hamburger: ")
+        return
+
+    await ctx.send("To make sure you really want to do this, please type ""do it""")
+
+    def check(m):
+        return m.content == "do it" and m.channel == ctx.channel
+
+    try:
+        msg = await client.wait_for("message", check=check, timeout=20)
+    except asyncio.TimeoutError:
+        await ctx.send("You took to long!")
+        return
+
+    print("doing it :(")
+    msgstorage.loadfromjson()
+    f = open("messageCount.json", "w")
+    f.flush()
+
 
 try:
     client.run(KEY)

@@ -5,9 +5,6 @@ def fetch(url):
     return (lambda u: requests.get(url).json())(url)
 
 
-# TODO Comments
-
-
 def tryhard(name):
     data = fetch(f"https://sky.shiiyu.moe/api/v2/profile/{name}")
     slayerdata = fetch(f"http://sky.shiiyu.moe/api/v2/slayers/{name}")
@@ -16,11 +13,9 @@ def tryhard(name):
     except KeyError:
         tolog = (f"[Tryhard Command] error while resolving request for {name}")
         logmsg.logmsg(tolog)
-        # TODO d: Error with your Username or you dont play Skyblock!
         return "d"
 
     except:
-        # TODO e: Error with API Try again later
         return "e"
 
     keys = list(data.keys())
@@ -60,12 +55,9 @@ def tryhard(name):
         slayers = False
 
     if skillavg >= 30:
-        # TODO a: You meet it because your Skill average is higher than/or 30!
         return "a"
     elif skillavg >= 25 and slayers == True:
-        # TODO b: You meet it because your Skill average is higher than 25 and you have two Slayers at level 7
         return "b"
     else:
-        # TODO c: You dont meet it, sorry!
         return "c"
 
