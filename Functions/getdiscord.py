@@ -1,5 +1,7 @@
 import requests
 data = None
+
+
 def fetch(url):
     return (lambda u: requests.get(url).json())(url)
 
@@ -18,7 +20,8 @@ def discordlinked(name):
     except:
         print(f"{name} has no linked discord, sending error")
         return "DISCORD_ERROR"
- 
+
+
 def rank(name):
 
     try:
@@ -32,16 +35,19 @@ def rank(name):
         return rank
 
     except:
-        print(f"Error while getting rank, maybe {name} is a Youtuber or Staff member?")
+        print(
+            f"Error while getting rank, maybe {name} is a Youtuber or Staff member?")
         return "RANK_ERROR"
+
 
 def name(name):
     try:
-        name=data["username"]
+        name = data["username"]
         return name
     except:
         print(f"Error getting correct name for {name}")
         return "NAME_ERROR"
+
 
 def guild(name):
     data = fetch(f"https://api.slothpixel.me/api/guilds/{name}")
@@ -55,4 +61,3 @@ def guild(name):
         return "Gmember"
     else:
         return "notGmember"
-
