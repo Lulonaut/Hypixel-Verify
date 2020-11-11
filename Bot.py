@@ -209,7 +209,7 @@ async def tryhard(ctx):
     elif out == "e":
         await ctx.send("Looks like the API is down, please try again in a few minutes.")
 
-    elif out == None:
+    elif out is None:
         await ctx.send("This shouldnt happen, please be so kind and report it :D")
 
     else:

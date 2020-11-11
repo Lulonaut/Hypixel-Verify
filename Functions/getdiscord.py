@@ -15,8 +15,7 @@ def discordlinked(name):
         return "API_ERROR"
 
     try:
-        linked = data["links"]["DISCORD"]
-        return linked
+        return data["links"]["DISCORD"]
     except:
         print(f"{name} has no linked discord, sending error")
         return "DISCORD_ERROR"
