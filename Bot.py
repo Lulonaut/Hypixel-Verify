@@ -10,8 +10,10 @@ import time
 import EDITME as tkn
 from discord.ext import commands
 from discord.utils import get
-from Functions import getdiscord, requesthandler, logmsg, msgstorage, Bots, allowed
+from Functions import getdiscord, requesthandler, logmsg, msgstorage, Bots, allowed  # , loadconf
+from Functions.getdiscord import APIError, APITimeoutError, DiscordError, GuildError, NameNotFoundError, RankError
 
+# FIXME: Handle custom exceptions
 
 intents = discord.Intents(members=True, presences=True,
                           messages=True, guilds=True)
@@ -66,25 +68,66 @@ async def verify(ctx, name):
     ankrole = None
 
     # Get info from API
+    try:
+        Output = getdiscord.discordlinked(name)
+    except APITimeoutError:
+        await ctx.send("The api didn't respond (waited 20 seconds). Please try again later!")
+        return
+    except APIError:
+        await ctx.send("There was some Error while contacting the API. Please try again later!")
+        return
+    except DiscordError:
+        await ctx.send("Cant find anything linked to Discord on the API, maybe there was an Error or your Username doesn't exist!")
 
-    Output = getdiscord.discordlinked(name)
-    rank = getdiscord.rank(name)
-    nickname = getdiscord.name(name)
-    guildmember = getdiscord.guild(name)
+    try:
+        rank = getdiscord.rank(name)
+    except APITimeoutError:
+        await ctx.send("The api didn't respond (waited 20 seconds). Please try again later!")
+        return
+    except APIError:
+        await ctx.send("There was some Error while contacting the API. Please try again later!")
+        return
+    except RankError:
+        await ctx.send("Can't find anything linked to Rank on the API, maybe there was an Error or your Username doesn't exist!")
 
+
+    try:
+        nickname = getdiscord.name(name)
+    except APITimeoutError:
+        await ctx.send("The api didn't respond (waited 20 seconds). Please try again later!")
+        return
+    except APIError:
+        await ctx.send("There was some Error while contacting the API. Please try again later!")
+        return
+    except NameNotFoundError:
+        await ctx.send("Can't find anything linked to your Name on the API, maybe there was an Error or your Username doesn't exist!")
+        return
+
+    try:
+        guildmember = getdiscord.guild(name)
+    except APITimeoutError:
+        await ctx.send("The api didn't respond (waited 20 seconds). Please try again later!")
+        return
+    except APIError:
+        await ctx.send("There was some Error while contacting the API. Please try again later!")
+        return
+    except GuildError:
+        await ctx.send("Can't find anything linked to your Guild on the API, maybe there was an Error or your Username doesn't exist!")
+        guildmember = None
+        pass
+    
+        
     # Error handling
 
     if Output == "API_ERROR":
         # Abort
         await ctx.send("There was an Error while contacting the API, please try again later or contact an Admin!")
         return
-    elif Output == "DISCORD_ERROR":
+    elif Output == "None" or None:
         # Abort
         await ctx.send(f"There is currently no Discord linked to the IGN: {name}. If you just updated it in game, try again in a few minutes! ")
         return
 
-    if guildmember == "NOT_IN_GUILD":
-        guildmember = None
 
     if rank == "RANK_ERROR":
         # Continue without Rank info
@@ -134,7 +177,7 @@ async def verify(ctx, name):
             logmsg.logmsg(
                 f"[VERIFY COMMAND] Error assigning Rank role for {name}")
         try:
-            if guildmember == "Gmember":
+            if guildmember == "gmember":
                 await member.add_roles(ankrole)
         except:
             logmsg.logmsg(
@@ -147,7 +190,7 @@ async def verify(ctx, name):
         except:
             await ctx.send("Sorry, i cant change your Nickname but i gave you the roles. If this keeps happening please report it!")
 
-    # Error, idk if this is ever used
+    # Error, idk if this is ever fired
     elif Output2 == "Error":
         await ctx.send("Something went wrong, please try again! If this keeps happening the Api is probably down.")
 
@@ -215,7 +258,7 @@ async def tryhard(ctx):
     else:
         await ctx.send("This shouldnt happen, please be so kind and report it :D")
 
-# Setup part, NOT COMPLETED
+# TODO: Setup part
 
 
 @client.event
