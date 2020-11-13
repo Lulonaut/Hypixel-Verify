@@ -12,7 +12,8 @@ def fetch(url, timeout=None):
 
 
 def discordlinked(name):
-    """Check linked Discord of Player
+    """
+    Check linked Discord of Player
 
     Args:
 
@@ -180,7 +181,6 @@ def guild(name):
 
         String: Guild Name
     """
-
     timeouted = None
     try:
         data = fetch(

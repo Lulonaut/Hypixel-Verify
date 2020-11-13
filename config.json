@@ -1,0 +1,21 @@
+{
+  "logging": {
+    "masterToggle": true,
+    "file": {
+      "logToFile": true,
+      "logMessagesToFile": true,
+      "fileForLogging": "latest.log"
+    },
+    "console": {
+      "logToConsole": true,
+      "logMessagesToConsole": false
+    }
+  },
+  "messages": {
+    "File": {
+      "saveMessagesToFile": true,
+      "fileForLog": "messageCount.json",
+      "continueHere": "http://objgen.com/json"
+    }
+  }
+}
