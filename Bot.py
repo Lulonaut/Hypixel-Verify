@@ -90,7 +90,6 @@ async def verify(ctx, name):
     except RankError:
         await ctx.send("Can't find anything linked to Rank on the API, maybe there was an Error or your Username doesn't exist!")
 
-
     try:
         nickname = getdiscord.name(name)
     except APITimeoutError:
@@ -115,8 +114,7 @@ async def verify(ctx, name):
         await ctx.send("Can't find anything linked to your Guild on the API, maybe there was an Error or your Username doesn't exist!")
         guildmember = None
         pass
-    
-        
+
     # Error handling
 
     if Output == "API_ERROR":
@@ -127,7 +125,6 @@ async def verify(ctx, name):
         # Abort
         await ctx.send(f"There is currently no Discord linked to the IGN: {name}. If you just updated it in game, try again in a few minutes! ")
         return
-
 
     if rank == "RANK_ERROR":
         # Continue without Rank info
