@@ -1,9 +1,6 @@
-from logging import log
-import os
 import re
 import time
 import discord
-import discord.utils
 import asyncio
 import traceback
 import time
@@ -113,7 +110,6 @@ async def verify(ctx, name):
     except GuildError:
         await ctx.send("Can't find anything linked to your Guild on the API, maybe there was an Error or your Username doesn't exist!")
         guildmember = None
-        pass
 
     # Error handling
 
@@ -204,8 +200,6 @@ async def tryhard(ctx):
     # return
     # Tryhard Role in the Discord
     tryhardrole = discord.utils.get(ctx.guild.roles, name="TryHard")
-    # The ticket Channel where they can open tickets
-    TICKET_CHANNEL = client.get_channel(737011590729039954)
 
     # Message that gets deleted after its done
     wait = await ctx.send("Please wait a bit while the Bot checks your stats!")
@@ -262,8 +256,6 @@ async def tryhard(ctx):
 async def on_message(message):
 
     if message.content.startswith('v!setup'):
-        # return as its not finished yet!
-        return
         channel = message.channel
         # Timout for answering
         default_timeout = int(1000)
@@ -284,8 +276,7 @@ async def on_message(message):
         def check(m):
             if c == m.content:
                 return m.channel == message.channel and m.author == message.author
-            elif c == None:
-
+            else:
                 return m.channel == message.channel and m.author == message.author
 
         # Actual Setup
@@ -433,7 +424,6 @@ async def removemessages(ctx):
 
     if str(ctx.author) in allowed.getName():
         logmsg.logmsg(f"[CLEARING MESSAGES] {ctx.author} is on the List")
-        pass
     else:
         print(ctx.author.id)
 
@@ -448,7 +438,7 @@ async def removemessages(ctx):
         return m.content == "do it" and m.channel == ctx.channel
 
     try:
-        msg = await client.wait_for("message", check=check, timeout=20)
+        await client.wait_for("message", check=check, timeout=20)
     except asyncio.TimeoutError:
         await ctx.send("You took to long!")
         return

@@ -29,7 +29,6 @@ def tryhard(name):
     for i in tosearch:
         if data[i]['current'] == True:
             finalprofile = i
-            pass
     skillavg = data[finalprofile]['data']['average_level_no_progress']
     slayerdata = slayerdata['profiles'][finalprofile]
     sven = slayerdata['slayers']['wolf']['level']['currentLevel']

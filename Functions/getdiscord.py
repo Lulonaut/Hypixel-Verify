@@ -48,7 +48,7 @@ def discordlinked(name):
     try:
         error = data['error']
         if error:
-            APIError(f"API reported: {error}")
+            raise APIError(f"API reported: {error}")
     except:
         pass
 
@@ -95,7 +95,7 @@ def rank(name):
     try:
         error = data['error']
         if error:
-            APIError(f"API reported: {error}")
+            raise APIError(f"API reported: {error}")
     except:
         pass
 
@@ -150,7 +150,7 @@ def name(name):
     try:
         error = data['error']
         if error:
-            APIError(f"API reported: {error}")
+            raise APIError(f"API reported: {error}")
     except:
         pass
 
@@ -200,7 +200,7 @@ def guild(name):
     try:
         error = data['error']
         if error:
-            APIError(f"API reported: {error}")
+            raise APIError(f"API reported: {error}")
     except:
         pass
     guildName = None

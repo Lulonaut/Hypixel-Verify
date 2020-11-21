@@ -1,5 +1,4 @@
 import json
-from Functions import logmsg
 
 replist = {}
 
@@ -9,9 +8,7 @@ def Handle(Name, action):
         o = checkrep(Name)
         if o == "Error":
             addentry(Name)
-            addMessage(Name)
-        else:
-            addMessage(Name)
+        addMessage(Name)
     elif action == "check":
         o = checkrep(Name)
         if o == "Error":
@@ -35,8 +32,7 @@ def savetojson(dict):
 def loadfromjson():
     try:
         with open('messageCount.json') as json_file:
-            replist = json.load(json_file)
-            return replist
+            return json.load(json_file)
     except json.decoder.JSONDecodeError:
         addentry("Placeholder")
 
@@ -45,7 +41,7 @@ def addMessage(Name):
     if Name in replist:
         u = replist[Name]
         u = int(u)
-        u = u+1
+        u += 1
         replist[Name] = u
         savetojson(replist)
     else:
@@ -57,7 +53,7 @@ def removeMessage(Name):
     if Name in replist:
         u = replist[Name]
         u = int(u)
-        u = u-1
+        u -= 1
         replist[Name] = u
         savetojson(replist)
     else:
