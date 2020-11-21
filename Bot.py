@@ -297,7 +297,7 @@ async def on_message(message):
         # First "start" Question
         try:
             c = "start"
-            msg = await client.wait_for('message', timeout=1000, check=check)
+            await client.wait_for('message', timeout=1000, check=check)
 
         except asyncio.TimeoutError:
             await channel.send("Sorry you took to long to respond! Try again")
@@ -401,7 +401,6 @@ async def checkmsg(ctx):
     try:
         output = getmsgcount()
     except:
-        finout = "Error"
         await ctx.send("error :(")
     try:
         finout = f"{output[0]}\n{output[1]}\n{output[2]}\n{output[3]}\n{output[4]}\n{output[5]}\n{output[6]}\n{output[7]}\n{output[8]}\n{output[9]}\n"
@@ -409,7 +408,6 @@ async def checkmsg(ctx):
         try:
             finout = f"{output[0]}\n{output[1]}\n{output[2]}"
         except:
-            finout = "Error"
             await ctx.send("Can't get usable stats, please make sure at least 3 People typed since the Bot was here.")
 
     embed = discord.Embed(title="Current Message Stats")
