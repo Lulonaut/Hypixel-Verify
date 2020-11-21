@@ -59,4 +59,3 @@ def tryhard(name):
         return "b"
     else:
         return "c"
-
