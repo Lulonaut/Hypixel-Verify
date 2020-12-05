@@ -444,7 +444,9 @@ async def removemessages(ctx):
     print("doing it :(")
     msgstorage.loadfromjson()
     f = open("messageCount.json", "w")
-    f.flush()
+    f.write("{}")
+    f.close()
+
 
 
 try:
